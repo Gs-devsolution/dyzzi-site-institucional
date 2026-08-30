@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Arrow } from "@/components/arrow";
+import { HeroWord } from "@/components/hero-word";
 import { ProjectVideo } from "@/components/project-video";
 import { links, siteContent } from "@/content/site-content";
 
@@ -23,6 +24,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 
 export function Hero() {
   const { hero } = siteContent;
+  const titleLead = hero.title.replace(" & criativo", "");
 
   return (
     <section className="hero" id="home">
@@ -32,7 +34,13 @@ export function Hero() {
       <div className="shell hero-inner">
         <div className="hero-copy">
           <Eyebrow>{hero.eyebrow}</Eyebrow>
-          <h1>{hero.title}</h1>
+          <h1 aria-label={hero.title}>
+            {titleLead}{" "}
+            <span className="hero-ending" aria-hidden="true">
+              <span>&amp;</span>
+              <HeroWord />
+            </span>
+          </h1>
           <BudgetLink className="button-light" />
         </div>
         <div className="hero-art" aria-hidden="true">

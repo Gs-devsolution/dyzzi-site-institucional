@@ -1,5 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat, Poppins } from "next/font/google";
+import {
+  Montserrat,
+  Parisienne,
+  Playfair_Display,
+  Poppins,
+} from "next/font/google";
 import localFont from "next/font/local";
 import { MetaPixel } from "@/components/meta-pixel";
 import { VLibras } from "@/components/vlibras";
@@ -23,6 +28,23 @@ const poppinsBold = Poppins({
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
+  display: "optional",
+  preload: false,
+});
+
+const parisienne = Parisienne({
+  variable: "--font-parisienne",
+  subsets: ["latin"],
+  weight: "400",
+  display: "optional",
+  preload: false,
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: "600",
+  style: "italic",
   display: "optional",
   preload: false,
 });
@@ -91,7 +113,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${poppinsSemibold.variable} ${poppinsBold.variable} ${montserrat.variable} ${engravers.variable}`}
+      className={`${poppinsSemibold.variable} ${poppinsBold.variable} ${montserrat.variable} ${parisienne.variable} ${playfair.variable} ${engravers.variable}`}
     >
       <body>
         {children}
