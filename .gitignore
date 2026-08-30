@@ -13,6 +13,8 @@
 # testing
 /coverage
 /artifacts/lighthouse-*.json
+/artifacts/revision-*.png
+/artifacts/vercel-production-mobile.png
 /dev-initial.png
 /--full-page
 

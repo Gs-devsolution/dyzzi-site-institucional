@@ -26,7 +26,7 @@ Auditoria local do build de produção realizada em 30/08/2026.
 
 | Perfil | Performance | Accessibility | Best Practices | SEO | LCP | TBT | CLS |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Mobile, throttling real do DevTools | 97 | 100 | 100 | 100 | 2,1 s | 60 ms | 0 |
+| Mobile, throttling real do DevTools | 96 | 100 | 100 | 100 | 2,1 s | 70 ms | 0 |
 | Desktop | 98 | 100 | 100 | 100 | 1,1 s | 0 ms | 0 |
 
 O perfil mobile usa throttling real do navegador. A simulação Lantern do ambiente local produziu uma estimativa anômala de LCP de 6 s, embora o trace observado registrasse o maior elemento em aproximadamente 0,3 s; por isso, o resultado real do DevTools foi mantido como evidência principal.
