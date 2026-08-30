@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Arrow } from "@/components/arrow";
 import { HeroWord } from "@/components/hero-word";
+import { InteractiveHeroMark } from "@/components/interactive-hero-mark";
 import { ProjectVideo } from "@/components/project-video";
 import { links, siteContent } from "@/content/site-content";
 
@@ -43,17 +44,7 @@ export function Hero() {
           </h1>
           <BudgetLink className="button-light" />
         </div>
-        <div className="hero-art" aria-hidden="true">
-          <span className="hero-disc" />
-          <Image
-            src="/media/simbolo-3d.png"
-            alt=""
-            width={365}
-            height={660}
-            priority
-            sizes="(max-width: 760px) 48vw, 24vw"
-          />
-        </div>
+        <InteractiveHeroMark />
       </div>
     </section>
   );
