@@ -488,6 +488,16 @@ dd {
   }
 }
 
+@keyframes symbol-float-gentle {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-0.5deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.5deg);
+  }
+}
+
 .about {
   overflow: hidden;
   background: var(--white);
@@ -1482,12 +1492,14 @@ dd {
   }
 
   .hero-mark-float {
-    animation: none;
+    animation-name: symbol-float-gentle !important;
+    animation-duration: 12s !important;
+    animation-timing-function: ease-in-out !important;
+    animation-iteration-count: infinite !important;
   }
 
   .hero-mark-interactive {
-    transform: none !important;
-    will-change: auto;
+    will-change: transform;
   }
 
   .hero-word {

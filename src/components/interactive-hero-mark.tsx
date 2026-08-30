@@ -53,12 +53,6 @@ export function InteractiveHeroMark() {
     let animationFrame = 0;
     let isVisible = true;
 
-    const resetMark = () => {
-      Object.assign(current, RESTING_MOTION);
-      Object.assign(target, RESTING_MOTION);
-      mark.style.transform = "none";
-    };
-
     const renderMotion = () => {
       current.x = interpolate(current.x, target.x);
       current.y = interpolate(current.y, target.y);
@@ -82,7 +76,7 @@ export function InteractiveHeroMark() {
         Math.abs(target.scrollRotate - current.scrollRotate) > 0.01 ||
         Math.abs(target.scale - current.scale) > 0.0001;
 
-      if (unsettled && isVisible && !reducedMotion.matches) {
+      if (unsettled && isVisible) {
         animationFrame = window.requestAnimationFrame(renderMotion);
       } else {
         animationFrame = 0;
@@ -90,27 +84,24 @@ export function InteractiveHeroMark() {
     };
 
     const queueMotion = () => {
-      if (
-        animationFrame === 0 &&
-        isVisible &&
-        !reducedMotion.matches
-      ) {
+      if (animationFrame === 0 && isVisible) {
         animationFrame = window.requestAnimationFrame(renderMotion);
       }
     };
 
     const handlePointerMove = (event: PointerEvent) => {
-      if (!finePointer.matches || reducedMotion.matches || !isVisible) {
+      if (!finePointer.matches || !isVisible) {
         return;
       }
 
+      const intensity = reducedMotion.matches ? 0.55 : 1;
       const normalizedX = clamp((event.clientX / window.innerWidth) * 2 - 1, -1, 1);
       const normalizedY = clamp((event.clientY / window.innerHeight) * 2 - 1, -1, 1);
 
-      target.x = normalizedX * 22;
-      target.y = normalizedY * 14;
-      target.rotateX = normalizedY * -6;
-      target.rotateY = normalizedX * 8;
+      target.x = normalizedX * 22 * intensity;
+      target.y = normalizedY * 14 * intensity;
+      target.rotateX = normalizedY * -6 * intensity;
+      target.rotateY = normalizedX * 8 * intensity;
       queueMotion();
     };
 
@@ -123,10 +114,6 @@ export function InteractiveHeroMark() {
     };
 
     const handleScroll = () => {
-      if (reducedMotion.matches) {
-        return;
-      }
-
       const heroRect = heroSection?.getBoundingClientRect();
 
       if (!heroRect) {
@@ -134,21 +121,17 @@ export function InteractiveHeroMark() {
       }
 
       const progress = clamp(-heroRect.top / heroRect.height, 0, 1);
-      target.scrollY = progress * 72;
-      target.scrollRotate = progress * 4.5;
-      target.scale = 1 - progress * 0.035;
+      const intensity = reducedMotion.matches ? 0.55 : 1;
+      target.scrollY = progress * 72 * intensity;
+      target.scrollRotate = progress * 4.5 * intensity;
+      target.scale = 1 - progress * 0.035 * intensity;
       queueMotion();
     };
 
     const handleMotionPreference = () => {
-      if (reducedMotion.matches) {
-        window.cancelAnimationFrame(animationFrame);
-        animationFrame = 0;
-        resetMark();
-      } else {
-        handleScroll();
-        queueMotion();
-      }
+      resetPointer();
+      handleScroll();
+      queueMotion();
     };
 
     const visibilityObserver = new IntersectionObserver(
