@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Site Institucional DYZZI
 
-## Getting Started
+Landing page institucional da Agência DYZZI, construída com Next.js 16, React 19 e TypeScript em modo estrito.
 
-First, run the development server:
+## Fontes de verdade
+
+- Copy e links: [site oficial da Agência DYZZI](https://www.agenciadyzzi.com.br/)
+- Identidade: arquivos oficiais fornecidos pela agência
+- Portfólio externo: [portfolio.agenciadyzzi.com.br](https://portfolio.agenciadyzzi.com.br/)
+
+Toda a copy visível está centralizada em `src/content/site-content.ts`. O teste `tests/content-parity.test.ts` bloqueia alterações acidentais na copy congelada, nas contagens editoriais, nos links e nos ativos locais obrigatórios.
+
+## Desenvolvimento
 
 ```bash
+npm install
+copy .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Validação
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run check
+```
 
-## Learn More
+O comando executa ESLint, TypeScript, paridade de conteúdo e build de produção.
 
-To learn more about Next.js, take a look at the following resources:
+## Variável pública
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+NEXT_PUBLIC_META_PIXEL_ID=1875213653406048
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+O Meta Pixel preserva somente `PageView`, respeita Global Privacy Control/Do Not Track e só inicializa quando `localStorage["dyzzi-analytics-consent"]` tem o valor `granted` ou quando o evento `dyzzi:analytics-consent` é disparado com `detail: "granted"`. O VLibras é carregado sob demanda, pelo script oficial, quando a pessoa aciona o botão de acessibilidade.
 
-## Deploy on Vercel
+## Mídia
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Os três vídeos oficiais são servidos localmente em MP4 H.264 com `faststart`, sem áudio e com posters próprios. Imagens e logos abaixo da dobra usam otimização nativa do Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+O resultado consolidado da auditoria está em [`VALIDATION-REPORT.md`](./VALIDATION-REPORT.md).
