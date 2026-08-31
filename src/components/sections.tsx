@@ -3,6 +3,7 @@ import { Arrow } from "@/components/arrow";
 import { HeroWord } from "@/components/hero-word";
 import { InteractiveHeroMark } from "@/components/interactive-hero-mark";
 import { ProjectVideo } from "@/components/project-video";
+import { ServicesShowcase } from "@/components/services-showcase";
 import { links, siteContent } from "@/content/site-content";
 
 function BudgetLink({ className = "" }: { className?: string }) {
@@ -83,29 +84,15 @@ export function Services() {
 
   return (
     <section className="section services" id="servicos">
-      <div className="shell">
-        <div className="section-heading section-heading-light">
-          <Eyebrow>{services.eyebrow}</Eyebrow>
-          <h2>{services.title}</h2>
+      <div className="shell services-layout">
+        <div className="services-sidebar">
+          <div className="section-heading section-heading-light">
+            <Eyebrow>{services.eyebrow}</Eyebrow>
+            <h2>{services.title}</h2>
+          </div>
+          <BudgetLink className="button-light services-cta" />
         </div>
-        <div className="services-list">
-          {services.items.map((service) => (
-            <article className="service-item" key={service.title}>
-              <div className="service-icon">
-                <Image
-                  src={service.icon}
-                  alt=""
-                  width={500}
-                  height={500}
-                  sizes="84px"
-                />
-              </div>
-              <h3>{service.title}</h3>
-              <p>{service.body}</p>
-            </article>
-          ))}
-        </div>
-        <BudgetLink className="button-light services-cta" />
+        <ServicesShowcase items={services.items} />
       </div>
     </section>
   );
