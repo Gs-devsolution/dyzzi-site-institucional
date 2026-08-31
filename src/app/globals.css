@@ -1135,7 +1135,17 @@ dd {
   aspect-ratio: 1;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 0,
+    rgba(255, 255, 255, 0.82) 0 2px,
+    rgba(217, 164, 251, 0.35) 3px,
+    transparent 5px
+  );
   transform: translate(-50%, -50%);
+  transform-origin: center;
+  animation: contact-ring-outer 36s linear infinite;
+  transition: border-color 300ms ease, filter 300ms ease;
+  will-change: transform;
 }
 
 .contact-rings::before,
@@ -1144,11 +1154,79 @@ dd {
   inset: 12%;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 50%;
+  background: radial-gradient(
+    circle at 100% 50%,
+    rgba(255, 255, 255, 0.74) 0 2px,
+    rgba(255, 138, 43, 0.32) 3px,
+    transparent 5px
+  );
   content: "";
+  transform-origin: center;
+  animation: contact-ring-middle 28s linear infinite;
+  transition: border-color 300ms ease;
 }
 
 .contact-rings::after {
   inset: 24%;
+  background: radial-gradient(
+    circle at 50% 100%,
+    rgba(255, 255, 255, 0.78) 0 2px,
+    rgba(217, 164, 251, 0.3) 3px,
+    transparent 5px
+  );
+  animation: contact-ring-inner 20s ease-in-out infinite;
+}
+
+.contact-cta:hover .contact-rings {
+  border-color: rgba(255, 255, 255, 0.28);
+  filter: drop-shadow(0 0 28px rgba(217, 164, 251, 0.12));
+}
+
+.contact-cta:hover .contact-rings::before,
+.contact-cta:hover .contact-rings::after {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes contact-ring-outer {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.975);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg) scale(1.02);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) scale(0.975);
+  }
+}
+
+@keyframes contact-ring-middle {
+  0% {
+    transform: rotate(0deg) scale(1.015);
+  }
+
+  50% {
+    transform: rotate(-180deg) scale(0.965);
+  }
+
+  100% {
+    transform: rotate(-360deg) scale(1.015);
+  }
+}
+
+@keyframes contact-ring-inner {
+  0% {
+    transform: rotate(0deg) scale(0.96);
+  }
+
+  50% {
+    transform: rotate(180deg) scale(1.045);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(0.96);
+  }
 }
 
 .careers-social {
