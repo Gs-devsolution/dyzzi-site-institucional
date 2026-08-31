@@ -1142,7 +1142,7 @@ dd {
   width: min(72vw, 980px);
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(217, 164, 251, 0.12), transparent 68%);
+  background: radial-gradient(circle, rgba(217, 164, 251, 0.18), transparent 68%);
   content: "";
 }
 
@@ -1150,11 +1150,13 @@ dd {
   position: absolute;
   width: min(78vw, 1100px);
   aspect-ratio: 1;
-  border: 1px solid rgba(255, 255, 255, 0.36);
+  border: 1px solid rgba(242, 221, 255, 0.74);
   border-radius: 50%;
   box-shadow:
-    0 0 18px rgba(217, 164, 251, 0.08),
-    inset 0 0 18px rgba(217, 164, 251, 0.05);
+    0 0 8px rgba(255, 255, 255, 0.22),
+    0 0 24px rgba(217, 164, 251, 0.38),
+    0 0 54px rgba(187, 87, 255, 0.24),
+    inset 0 0 18px rgba(255, 255, 255, 0.12);
   opacity: 0;
   transform: scale(0.08);
   transform-origin: center;
@@ -1185,15 +1187,15 @@ dd {
   }
 
   10% {
-    opacity: 0.28;
+    opacity: 0.44;
   }
 
   68% {
-    opacity: 0.16;
+    opacity: 0.26;
   }
 
   86% {
-    opacity: 0.08;
+    opacity: 0.12;
   }
 
   100% {
