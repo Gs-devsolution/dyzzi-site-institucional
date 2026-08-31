@@ -338,7 +338,7 @@ dd {
   margin-bottom: 34px;
   font-size: clamp(3.3rem, 5vw, 6rem);
   font-weight: 600;
-  line-height: 0.94;
+  line-height: 1.06;
 }
 
 .hero-title-lead {
@@ -348,28 +348,23 @@ dd {
 .hero-ending {
   display: flex;
   width: 100%;
-  height: 1em;
+  height: 1.06em;
   align-items: baseline;
   gap: 0.17em;
-  line-height: 0.94;
+  line-height: 1.06;
   white-space: nowrap;
 }
 
 .hero-word-stage {
-  position: relative;
-  display: block;
+  display: inline-flex;
   width: 5.15em;
-  height: 1em;
+  height: 1.06em;
+  align-items: baseline;
   flex: 0 0 5.15em;
-  contain: layout;
 }
 
 .hero-word {
-  position: absolute;
-  top: 0;
-  left: 0;
   display: block;
-  height: 1em;
   line-height: 1;
   transform-origin: left center;
   white-space: nowrap;
