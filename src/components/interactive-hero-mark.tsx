@@ -35,13 +35,15 @@ function interpolate(current: number, target: number) {
 
 export function InteractiveHeroMark() {
   const heroArtRef = useRef<HTMLDivElement>(null);
+  const hitAreaRef = useRef<HTMLDivElement>(null);
   const markRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const heroArt = heroArtRef.current;
+    const hitArea = hitAreaRef.current;
     const mark = markRef.current;
 
-    if (!heroArt || !mark) {
+    if (!heroArt || !hitArea || !mark) {
       return;
     }
 
@@ -52,6 +54,8 @@ export function InteractiveHeroMark() {
     const target = { ...RESTING_MOTION };
     let animationFrame = 0;
     let isVisible = true;
+    let isPointerOver = false;
+    let baseScale = 1;
 
     const renderMotion = () => {
       current.x = interpolate(current.x, target.x);
@@ -90,26 +94,50 @@ export function InteractiveHeroMark() {
     };
 
     const handlePointerMove = (event: PointerEvent) => {
-      if (!finePointer.matches || !isVisible) {
+      if (!finePointer.matches || !isVisible || !isPointerOver) {
         return;
       }
 
-      const intensity = reducedMotion.matches ? 0.55 : 1;
-      const normalizedX = clamp((event.clientX / window.innerWidth) * 2 - 1, -1, 1);
-      const normalizedY = clamp((event.clientY / window.innerHeight) * 2 - 1, -1, 1);
+      const hitAreaRect = hitArea.getBoundingClientRect();
+      const intensity = reducedMotion.matches ? 0.8 : 1;
+      const normalizedX = clamp(
+        ((event.clientX - hitAreaRect.left) / hitAreaRect.width) * 2 - 1,
+        -1,
+        1,
+      );
+      const normalizedY = clamp(
+        ((event.clientY - hitAreaRect.top) / hitAreaRect.height) * 2 - 1,
+        -1,
+        1,
+      );
 
-      target.x = normalizedX * 22 * intensity;
-      target.y = normalizedY * 14 * intensity;
-      target.rotateX = normalizedY * -6 * intensity;
-      target.rotateY = normalizedX * 8 * intensity;
+      target.x = normalizedX * 34 * intensity;
+      target.y = normalizedY * 22 * intensity;
+      target.rotateX = normalizedY * -12 * intensity;
+      target.rotateY = normalizedX * 16 * intensity;
+      queueMotion();
+    };
+
+    const handlePointerEnter = () => {
+      if (!finePointer.matches) {
+        return;
+      }
+
+      const intensity = reducedMotion.matches ? 0.8 : 1;
+      isPointerOver = true;
+      target.scale = baseScale + 0.065 * intensity;
+      mark.classList.add("is-pointer-active");
       queueMotion();
     };
 
     const resetPointer = () => {
+      isPointerOver = false;
       target.x = 0;
       target.y = 0;
       target.rotateX = 0;
       target.rotateY = 0;
+      target.scale = baseScale;
+      mark.classList.remove("is-pointer-active");
       queueMotion();
     };
 
@@ -121,10 +149,11 @@ export function InteractiveHeroMark() {
       }
 
       const progress = clamp(-heroRect.top / heroRect.height, 0, 1);
-      const intensity = reducedMotion.matches ? 0.55 : 1;
+      const intensity = reducedMotion.matches ? 0.8 : 1;
       target.scrollY = progress * 72 * intensity;
       target.scrollRotate = progress * 4.5 * intensity;
-      target.scale = 1 - progress * 0.035 * intensity;
+      baseScale = 1 - progress * 0.035 * intensity;
+      target.scale = baseScale + (isPointerOver ? 0.065 * intensity : 0);
       queueMotion();
     };
 
@@ -147,20 +176,22 @@ export function InteractiveHeroMark() {
     );
 
     visibilityObserver.observe(heroArt);
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    hitArea.addEventListener("pointerenter", handlePointerEnter);
+    hitArea.addEventListener("pointermove", handlePointerMove, { passive: true });
+    hitArea.addEventListener("pointerleave", resetPointer);
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("blur", resetPointer);
-    document.documentElement.addEventListener("pointerleave", resetPointer);
     reducedMotion.addEventListener("change", handleMotionPreference);
     handleScroll();
 
     return () => {
       window.cancelAnimationFrame(animationFrame);
       visibilityObserver.disconnect();
-      window.removeEventListener("pointermove", handlePointerMove);
+      hitArea.removeEventListener("pointerenter", handlePointerEnter);
+      hitArea.removeEventListener("pointermove", handlePointerMove);
+      hitArea.removeEventListener("pointerleave", resetPointer);
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("blur", resetPointer);
-      document.documentElement.removeEventListener("pointerleave", resetPointer);
       reducedMotion.removeEventListener("change", handleMotionPreference);
     };
   }, []);
@@ -168,16 +199,18 @@ export function InteractiveHeroMark() {
   return (
     <div className="hero-art" ref={heroArtRef} aria-hidden="true">
       <span className="hero-disc" />
-      <div className="hero-mark-interactive" ref={markRef}>
-        <div className="hero-mark-float">
-          <Image
-            src="/media/simbolo-3d.png"
-            alt=""
-            width={365}
-            height={660}
-            priority
-            sizes="(max-width: 760px) 55vw, 19vw"
-          />
+      <div className="hero-mark-hitarea" ref={hitAreaRef}>
+        <div className="hero-mark-interactive" ref={markRef}>
+          <div className="hero-mark-float">
+            <Image
+              src="/media/simbolo-3d.png"
+              alt=""
+              width={365}
+              height={660}
+              priority
+              sizes="(max-width: 760px) 55vw, 19vw"
+            />
+          </div>
         </div>
       </div>
     </div>

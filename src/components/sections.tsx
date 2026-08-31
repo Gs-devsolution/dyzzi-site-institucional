@@ -36,7 +36,7 @@ export function Hero() {
         <div className="hero-copy">
           <Eyebrow>{hero.eyebrow}</Eyebrow>
           <h1 aria-label={hero.title}>
-            {titleLead}{" "}
+            <span className="hero-title-lead">{titleLead}</span>
             <span className="hero-ending" aria-hidden="true">
               <span>&amp;</span>
               <HeroWord />
