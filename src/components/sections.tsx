@@ -25,6 +25,23 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
   return <p className="eyebrow">{children}</p>;
 }
 
+function LightSectionMarks({
+  variant,
+}: {
+  variant: "about" | "projects" | "clients";
+}) {
+  return (
+    <div
+      className={`light-section-marks light-section-marks-${variant}`}
+      aria-hidden="true"
+    >
+      <span className="light-section-mark light-section-mark-one" />
+      <span className="light-section-mark light-section-mark-two" />
+      <span className="light-section-mark light-section-mark-three" />
+    </div>
+  );
+}
+
 export function Hero() {
   const { hero } = siteContent;
   const titleLead = hero.title.replace(" & criativo", "");
@@ -67,15 +84,7 @@ export function About() {
           <BudgetLink />
         </div>
       </div>
-      <Image
-        className="about-mark"
-        src="/brand/dyzzi-mark-purple.png"
-        alt=""
-        width={500}
-        height={500}
-        sizes="260px"
-        aria-hidden="true"
-      />
+      <LightSectionMarks variant="about" />
     </section>
   );
 }
@@ -132,6 +141,7 @@ export function Projects() {
           </figure>
         ))}
       </div>
+      <LightSectionMarks variant="projects" />
     </section>
   );
 }
@@ -178,6 +188,7 @@ export function Clients() {
         </div>
         <BudgetLink className="clients-cta" />
       </div>
+      <LightSectionMarks variant="clients" />
     </section>
   );
 }

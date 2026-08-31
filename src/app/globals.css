@@ -545,14 +545,42 @@ dd {
   font-size: clamp(0.95rem, 1.05vw, 1.08rem);
 }
 
-.about-mark {
+.light-section-marks {
   position: absolute;
+  z-index: 0;
+  overflow: hidden;
+  inset: 0;
+  pointer-events: none;
+}
+
+.light-section-mark {
+  position: absolute;
+  width: 360px;
+  aspect-ratio: 1;
+  background: url("/brand/dyzzi-mark-purple.png") center / contain no-repeat;
+  opacity: 0.05;
+}
+
+.light-section-marks-about .light-section-mark-one {
   right: -70px;
   bottom: -150px;
-  width: 360px;
-  height: 360px;
-  opacity: 0.055;
   transform: rotate(10deg);
+}
+
+.light-section-marks-about .light-section-mark-two {
+  top: -160px;
+  left: -76px;
+  width: 300px;
+  opacity: 0.035;
+  transform: rotate(-14deg);
+}
+
+.light-section-marks-about .light-section-mark-three {
+  right: 34%;
+  bottom: -250px;
+  width: 500px;
+  opacity: 0.026;
+  transform: rotate(5deg);
 }
 
 .services {
@@ -836,7 +864,38 @@ dd {
 }
 
 .projects {
+  overflow: hidden;
   background: var(--lilac);
+}
+
+.projects > .shell,
+.clients > .shell {
+  position: relative;
+  z-index: 1;
+}
+
+.light-section-marks-projects .light-section-mark-one {
+  top: -155px;
+  right: -78px;
+  width: 400px;
+  opacity: 0.06;
+  transform: rotate(13deg);
+}
+
+.light-section-marks-projects .light-section-mark-two {
+  top: 39%;
+  left: -155px;
+  width: 490px;
+  opacity: 0.042;
+  transform: rotate(-11deg);
+}
+
+.light-section-marks-projects .light-section-mark-three {
+  right: 20%;
+  bottom: -230px;
+  width: 520px;
+  opacity: 0.034;
+  transform: rotate(4deg);
 }
 
 .projects-heading {
@@ -900,6 +959,30 @@ dd {
   background:
     radial-gradient(circle at 12% 16%, rgba(141, 42, 209, 0.12), transparent 28%),
     linear-gradient(180deg, var(--white), #f8f3fb);
+}
+
+.light-section-marks-clients .light-section-mark-one {
+  top: -165px;
+  left: -105px;
+  width: 420px;
+  opacity: 0.046;
+  transform: rotate(-12deg);
+}
+
+.light-section-marks-clients .light-section-mark-two {
+  top: 19%;
+  right: -120px;
+  width: 460px;
+  opacity: 0.05;
+  transform: rotate(14deg);
+}
+
+.light-section-marks-clients .light-section-mark-three {
+  bottom: -220px;
+  left: 45%;
+  width: 500px;
+  opacity: 0.03;
+  transform: rotate(-4deg);
 }
 
 .clients-heading {
@@ -1868,6 +1951,23 @@ dd {
     font-size: clamp(2.35rem, 10.5vw, 4rem);
   }
 
+  .light-section-mark-three {
+    display: none;
+  }
+
+  .light-section-marks-about .light-section-mark-one {
+    right: -118px;
+    bottom: -112px;
+    width: 310px;
+  }
+
+  .light-section-marks-about .light-section-mark-two {
+    top: auto;
+    bottom: -140px;
+    left: -72px;
+    width: 300px;
+  }
+
   .services-layout {
     gap: 46px;
   }
@@ -1986,8 +2086,32 @@ dd {
     margin-top: 0;
   }
 
+  .light-section-marks-projects .light-section-mark-one {
+    top: -118px;
+    right: -116px;
+    width: 300px;
+  }
+
+  .light-section-marks-projects .light-section-mark-two {
+    top: 48%;
+    left: -122px;
+    width: 330px;
+  }
+
   .clients-heading {
     margin-bottom: 44px;
+  }
+
+  .light-section-marks-clients .light-section-mark-one {
+    top: -40px;
+    left: -90px;
+    width: 280px;
+  }
+
+  .light-section-marks-clients .light-section-mark-two {
+    top: -25px;
+    right: -130px;
+    width: 300px;
   }
 
   .client-stage {
