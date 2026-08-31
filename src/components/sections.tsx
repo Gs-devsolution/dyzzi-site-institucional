@@ -4,6 +4,7 @@ import { HeroWord } from "@/components/hero-word";
 import { InteractiveHeroMark } from "@/components/interactive-hero-mark";
 import { ProjectVideo } from "@/components/project-video";
 import { ServicesShowcase } from "@/components/services-showcase";
+import { TestimonialsShowcase } from "@/components/testimonials-showcase";
 import { links, siteContent } from "@/content/site-content";
 
 function BudgetLink({ className = "" }: { className?: string }) {
@@ -213,15 +214,10 @@ export function Testimonials() {
           <Eyebrow>{testimonials.eyebrow}</Eyebrow>
           <h2 className="preserve-lines">{testimonials.title}</h2>
         </div>
-        <div className="testimonials-list">
-          {testimonials.items.map((testimonial) => (
-            <figure className="testimonial" key={testimonial.author}>
-              <blockquote>{testimonial.quote}</blockquote>
-              <figcaption>{testimonial.author}</figcaption>
-            </figure>
-          ))}
-          <BudgetLink className="button-light testimonials-cta" />
-        </div>
+        <TestimonialsShowcase
+          items={testimonials.items}
+          cta={<BudgetLink className="button-light testimonials-cta" />}
+        />
       </div>
     </section>
   );
