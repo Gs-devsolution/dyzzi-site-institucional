@@ -1129,103 +1129,76 @@ dd {
 
 .contact-rings {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(85vw, 1250px);
-  aspect-ratio: 1;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 50% 0,
-    rgba(255, 255, 255, 0.82) 0 2px,
-    rgba(217, 164, 251, 0.35) 3px,
-    transparent 5px
-  );
-  transform: translate(-50%, -50%);
-  transform-origin: center;
-  animation: contact-ring-outer 36s linear infinite;
-  transition: border-color 300ms ease, filter 300ms ease;
-  will-change: transform;
+  z-index: 1;
+  display: grid;
+  overflow: hidden;
+  inset: 0;
+  place-items: center;
+  pointer-events: none;
 }
 
-.contact-rings::before,
-.contact-rings::after {
+.contact-rings::before {
   position: absolute;
-  inset: 12%;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  width: min(72vw, 980px);
+  aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(
-    circle at 100% 50%,
-    rgba(255, 255, 255, 0.74) 0 2px,
-    rgba(255, 138, 43, 0.32) 3px,
-    transparent 5px
-  );
+  background: radial-gradient(circle, rgba(217, 164, 251, 0.12), transparent 68%);
   content: "";
+}
+
+.contact-ring {
+  position: absolute;
+  width: min(78vw, 1100px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  border-radius: 50%;
+  box-shadow:
+    0 0 18px rgba(217, 164, 251, 0.08),
+    inset 0 0 18px rgba(217, 164, 251, 0.05);
+  opacity: 0;
+  transform: scale(0.08);
   transform-origin: center;
-  animation: contact-ring-middle 28s linear infinite;
-  transition: border-color 300ms ease;
+  animation: contact-ring-wave 7.5s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+  will-change: transform, opacity;
 }
 
-.contact-rings::after {
-  inset: 24%;
-  background: radial-gradient(
-    circle at 50% 100%,
-    rgba(255, 255, 255, 0.78) 0 2px,
-    rgba(217, 164, 251, 0.3) 3px,
-    transparent 5px
-  );
-  animation: contact-ring-inner 20s ease-in-out infinite;
+.contact-ring:nth-child(2) {
+  animation-delay: -1.5s;
 }
 
-.contact-cta:hover .contact-rings {
-  border-color: rgba(255, 255, 255, 0.28);
-  filter: drop-shadow(0 0 28px rgba(217, 164, 251, 0.12));
+.contact-ring:nth-child(3) {
+  animation-delay: -3s;
 }
 
-.contact-cta:hover .contact-rings::before,
-.contact-cta:hover .contact-rings::after {
-  border-color: rgba(255, 255, 255, 0.2);
+.contact-ring:nth-child(4) {
+  animation-delay: -4.5s;
 }
 
-@keyframes contact-ring-outer {
+.contact-ring:nth-child(5) {
+  animation-delay: -6s;
+}
+
+@keyframes contact-ring-wave {
   0% {
-    transform: translate(-50%, -50%) rotate(0deg) scale(0.975);
+    opacity: 0;
+    transform: scale(0.08);
   }
 
-  50% {
-    transform: translate(-50%, -50%) rotate(180deg) scale(1.02);
+  10% {
+    opacity: 0.28;
+  }
+
+  68% {
+    opacity: 0.16;
+  }
+
+  86% {
+    opacity: 0.08;
   }
 
   100% {
-    transform: translate(-50%, -50%) rotate(360deg) scale(0.975);
-  }
-}
-
-@keyframes contact-ring-middle {
-  0% {
-    transform: rotate(0deg) scale(1.015);
-  }
-
-  50% {
-    transform: rotate(-180deg) scale(0.965);
-  }
-
-  100% {
-    transform: rotate(-360deg) scale(1.015);
-  }
-}
-
-@keyframes contact-ring-inner {
-  0% {
-    transform: rotate(0deg) scale(0.96);
-  }
-
-  50% {
-    transform: rotate(180deg) scale(1.045);
-  }
-
-  100% {
-    transform: rotate(360deg) scale(0.96);
+    opacity: 0;
+    transform: scale(1.72);
   }
 }
 
@@ -1909,6 +1882,28 @@ dd {
     opacity: 1;
     transform: none;
     animation: none !important;
+  }
+
+  .contact-ring {
+    animation-duration: 12s !important;
+    animation-iteration-count: infinite !important;
+    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+  }
+
+  .contact-ring:nth-child(2) {
+    animation-delay: -2.4s !important;
+  }
+
+  .contact-ring:nth-child(3) {
+    animation-delay: -4.8s !important;
+  }
+
+  .contact-ring:nth-child(4) {
+    animation-delay: -7.2s !important;
+  }
+
+  .contact-ring:nth-child(5) {
+    animation-delay: -9.6s !important;
   }
 
   .services-showcase::before {

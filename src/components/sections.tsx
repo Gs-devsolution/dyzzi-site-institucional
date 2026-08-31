@@ -232,7 +232,13 @@ export function ContactCta() {
 
   return (
     <section className="section contact-cta">
-      <div className="contact-rings" aria-hidden="true" />
+      <div className="contact-rings" aria-hidden="true">
+        <span className="contact-ring" />
+        <span className="contact-ring" />
+        <span className="contact-ring" />
+        <span className="contact-ring" />
+        <span className="contact-ring" />
+      </div>
       <div className="shell contact-cta-inner">
         <h2 className="preserve-lines">{contactCta.title}</h2>
         <p className="preserve-lines">{contactCta.body}</p>
