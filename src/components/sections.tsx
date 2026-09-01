@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Arrow } from "@/components/arrow";
+import { ClientsCarousel } from "@/components/clients-carousel";
 import { HeroWord } from "@/components/hero-word";
 import { InteractiveHeroMark } from "@/components/interactive-hero-mark";
 import { ProjectVideo } from "@/components/project-video";
@@ -148,10 +149,6 @@ export function Projects() {
 
 export function Clients() {
   const { clients } = siteContent;
-  const rows = [
-    clients.items.slice(0, Math.ceil(clients.items.length / 2)),
-    clients.items.slice(Math.ceil(clients.items.length / 2)),
-  ];
 
   return (
     <section className="section clients">
@@ -160,58 +157,11 @@ export function Clients() {
           <Eyebrow>{clients.eyebrow}</Eyebrow>
           <h2>{clients.title}</h2>
         </div>
-        <div className="client-stage">
-          <span className="client-stage-orbit" aria-hidden="true" />
-          {rows.map((row, rowIndex) => (
-            <div
-              className={`client-marquee ${rowIndex === 1 ? "client-marquee-reverse" : ""}`.trim()}
-              key={rowIndex}
-            >
-              <div className="client-track">
-                <div className="client-set">
-                  {row.map((client) => (
-                    <ClientLogo client={client} key={client.file} />
-                  ))}
-                </div>
-                <div className="client-set" aria-hidden="true">
-                  {row.map((client) => (
-                    <ClientLogo
-                      client={client}
-                      decorative
-                      key={`${client.file}-duplicate`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <ClientsCarousel items={clients.items} />
         <BudgetLink className="clients-cta" />
       </div>
       <LightSectionMarks variant="clients" />
     </section>
-  );
-}
-
-type Client = (typeof siteContent.clients.items)[number];
-
-function ClientLogo({
-  client,
-  decorative = false,
-}: {
-  client: Client;
-  decorative?: boolean;
-}) {
-  return (
-    <div className="client-logo">
-      <Image
-        src={`/clients/${client.file}`}
-        alt={decorative ? "" : client.alt}
-        width={500}
-        height={500}
-        sizes="(max-width: 760px) 180px, 250px"
-      />
-    </div>
   );
 }
 

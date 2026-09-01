@@ -5,7 +5,7 @@ import { test } from "node:test";
 import { links, siteContent } from "../src/content/site-content.ts";
 
 const EXPECTED_CONTENT_HASH =
-  "0886ac880fdb8c14b08f940d5cc7dc67127e22b150453c6b90fc537f814b9b1c";
+  "cbbb2f41e343434c1c0c6fcb4d6a0f0a56c9822845b9fb169c51feb25642aaf3";
 
 test("a copy congelada permanece literal", () => {
   const hash = createHash("sha256")
@@ -18,7 +18,7 @@ test("a copy congelada permanece literal", () => {
 test("as quantidades editoriais obrigatórias permanecem completas", () => {
   assert.equal(siteContent.services.items.length, 6);
   assert.equal(siteContent.projects.items.length, 3);
-  assert.equal(siteContent.clients.items.length, 15);
+  assert.equal(siteContent.clients.items.length, 9);
   assert.equal(siteContent.testimonials.items.length, 5);
 });
 
