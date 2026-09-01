@@ -18,7 +18,8 @@ export type ClientCarouselItem = {
 };
 
 const CAROUSEL_SPEED = 32;
-const RESUME_DELAY = 1500;
+const REDUCED_MOTION_SPEED = 20;
+const DRAG_RESUME_DELAY = 1200;
 
 function normalizeOffset(value: number, width: number) {
   if (width <= 0) return 0;
@@ -108,11 +109,6 @@ export function ClientsCarousel({
     const resizeObserver = new ResizeObserver(updateWidth);
     resizeObserver.observe(sequence);
 
-    if (reducedMotion) {
-      track.style.transform = "none";
-      return () => resizeObserver.disconnect();
-    }
-
     let frameId = 0;
     lastFrameRef.current = performance.now();
 
@@ -130,7 +126,8 @@ export function ClientsCarousel({
 
       if (!shouldPause && sequenceWidthRef.current > 0) {
         offsetRef.current = normalizeOffset(
-          offsetRef.current + CAROUSEL_SPEED * elapsed,
+          offsetRef.current +
+            (reducedMotion ? REDUCED_MOTION_SPEED : CAROUSEL_SPEED) * elapsed,
           sequenceWidthRef.current,
         );
         track.style.transform = `translate3d(${-offsetRef.current}px, 0, 0)`;
@@ -148,7 +145,7 @@ export function ClientsCarousel({
   }, [reducedMotion]);
 
   const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (reducedMotion || event.button !== 0) return;
+    if (event.button !== 0) return;
     event.currentTarget.setPointerCapture(event.pointerId);
     dragRef.current = { pointerId: event.pointerId, x: event.clientX };
     interactionRef.current.drag = true;
@@ -175,13 +172,13 @@ export function ClientsCarousel({
     }
     dragRef.current.pointerId = -1;
     interactionRef.current.drag = false;
-    resumeAtRef.current = performance.now() + RESUME_DELAY;
+    resumeAtRef.current = performance.now() + DRAG_RESUME_DELAY;
     setDragging(false);
   };
 
   const setInteraction = (type: "hover" | "focus", active: boolean) => {
     interactionRef.current[type] = active;
-    if (!active) resumeAtRef.current = performance.now() + RESUME_DELAY;
+    if (!active) resumeAtRef.current = performance.now();
   };
 
   return (
@@ -192,25 +189,23 @@ export function ClientsCarousel({
     >
       <span className="clients-carousel-orbit" aria-hidden="true" />
       <span className="clients-carousel-glow" aria-hidden="true" />
-      {!reducedMotion ? (
-        <button
-          className="clients-motion-control"
-          type="button"
-          aria-label={manualPaused ? "Continuar movimento" : "Pausar movimento"}
-          aria-pressed={manualPaused}
-          onClick={() =>
-            setManualPaused((paused) => {
-              manualPausedRef.current = !paused;
-              return !paused;
-            })
-          }
-        >
-          <span className="clients-motion-icon" aria-hidden="true">
-            <i />
-            <i />
-          </span>
-        </button>
-      ) : null}
+      <button
+        className="clients-motion-control"
+        type="button"
+        aria-label={manualPaused ? "Continuar movimento" : "Pausar movimento"}
+        aria-pressed={manualPaused}
+        onClick={() =>
+          setManualPaused((paused) => {
+            manualPausedRef.current = !paused;
+            return !paused;
+          })
+        }
+      >
+        <span className="clients-motion-icon" aria-hidden="true">
+          <i />
+          <i />
+        </span>
+      </button>
       <div
         className="clients-carousel-viewport"
         role="group"
@@ -218,7 +213,11 @@ export function ClientsCarousel({
         tabIndex={0}
         onMouseEnter={() => setInteraction("hover", true)}
         onMouseLeave={() => setInteraction("hover", false)}
-        onFocus={() => setInteraction("focus", true)}
+        onFocus={(event) => {
+          if (event.currentTarget.matches(":focus-visible")) {
+            setInteraction("focus", true);
+          }
+        }}
         onBlur={() => setInteraction("focus", false)}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
