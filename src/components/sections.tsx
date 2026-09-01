@@ -39,6 +39,8 @@ function LightSectionMarks({
       <span className="light-section-mark light-section-mark-one" />
       <span className="light-section-mark light-section-mark-two" />
       <span className="light-section-mark light-section-mark-three" />
+      <span className="light-section-mark light-section-mark-four" />
+      <span className="light-section-mark light-section-mark-five" />
     </div>
   );
 }

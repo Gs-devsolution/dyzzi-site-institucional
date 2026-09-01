@@ -78,6 +78,7 @@ export function ClientsCarousel({
   const lastFrameRef = useRef(0);
   const resumeAtRef = useRef(0);
   const interactionRef = useRef({ hover: false, focus: false, drag: false });
+  const carouselVisibleRef = useRef(true);
   const dragRef = useRef({ pointerId: -1, x: 0 });
   const manualPausedRef = useRef(false);
   const [manualPaused, setManualPaused] = useState(false);
@@ -97,7 +98,8 @@ export function ClientsCarousel({
   useEffect(() => {
     const track = trackRef.current;
     const sequence = firstSequenceRef.current;
-    if (!track || !sequence) return;
+    const carousel = track?.closest(".clients-carousel");
+    if (!track || !sequence || !carousel) return;
 
     const updateWidth = () => {
       const nextWidth = sequence.getBoundingClientRect().width;
@@ -108,6 +110,14 @@ export function ClientsCarousel({
     updateWidth();
     const resizeObserver = new ResizeObserver(updateWidth);
     resizeObserver.observe(sequence);
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        carouselVisibleRef.current = entry.isIntersecting;
+        lastFrameRef.current = performance.now();
+      },
+      { rootMargin: "180px 0px" },
+    );
+    visibilityObserver.observe(carousel);
 
     let frameId = 0;
     lastFrameRef.current = performance.now();
@@ -121,6 +131,7 @@ export function ClientsCarousel({
         interaction.hover ||
         interaction.focus ||
         interaction.drag ||
+        !carouselVisibleRef.current ||
         document.hidden ||
         time < resumeAtRef.current;
 
@@ -141,6 +152,7 @@ export function ClientsCarousel({
     return () => {
       cancelAnimationFrame(frameId);
       resizeObserver.disconnect();
+      visibilityObserver.disconnect();
     };
   }, [reducedMotion]);
 
