@@ -5,7 +5,7 @@ import { test } from "node:test";
 import { links, siteContent } from "../src/content/site-content.ts";
 
 const EXPECTED_CONTENT_HASH =
-  "cbbb2f41e343434c1c0c6fcb4d6a0f0a56c9822845b9fb169c51feb25642aaf3";
+  "67844fac7d0de02c2ad6ab220880a6b3ce1ac44b609b1afb127878e496f93f00";
 
 test("a copy congelada permanece literal", () => {
   const hash = createHash("sha256")
@@ -20,6 +20,37 @@ test("as quantidades editoriais obrigatórias permanecem completas", () => {
   assert.equal(siteContent.projects.items.length, 3);
   assert.equal(siteContent.clients.items.length, 9);
   assert.equal(siteContent.testimonials.items.length, 5);
+});
+
+test("os três cases em vídeo mantêm nomes e sequência aprovados", () => {
+  assert.deepEqual(
+    siteContent.projects.items.map(({ id, brand, title, category }) => ({
+      id,
+      brand,
+      title,
+      category,
+    })),
+    [
+      {
+        id: "dove-uv-repair",
+        brand: "Dove",
+        title: "UV Repair & Glow + Ferúlico",
+        category: "Ativação de marca",
+      },
+      {
+        id: "kabum-sana-2025",
+        brand: "KaBuM!",
+        title: "SANA 2025",
+        category: "Cobertura de evento",
+      },
+      {
+        id: "brahma-rua-n1-2026",
+        brand: "Brahma",
+        title: "Rua Nº1 — Copa 2026",
+        category: "Experiência de marca",
+      },
+    ],
+  );
 });
 
 test("links oficiais permanecem congelados", () => {

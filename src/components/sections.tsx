@@ -3,7 +3,7 @@ import { Arrow } from "@/components/arrow";
 import { ClientsCarousel } from "@/components/clients-carousel";
 import { HeroWord } from "@/components/hero-word";
 import { InteractiveHeroMark } from "@/components/interactive-hero-mark";
-import { ProjectVideo } from "@/components/project-video";
+import { ProjectsShowcase } from "@/components/projects-showcase";
 import { ServicesShowcase } from "@/components/services-showcase";
 import { TestimonialsShowcase } from "@/components/testimonials-showcase";
 import { links, siteContent } from "@/content/site-content";
@@ -134,16 +134,7 @@ export function Projects() {
           <BudgetLink />
         </div>
       </div>
-      <div className="shell project-reel">
-        {projects.items.map((project, index) => (
-          <figure className="project-frame" key={project.mp4}>
-            <ProjectVideo
-              {...project}
-              label={`Projeto ${index + 1} da Agência DYZZI`}
-            />
-          </figure>
-        ))}
-      </div>
+      <ProjectsShowcase items={projects.items} />
       <LightSectionMarks variant="projects" />
     </section>
   );
