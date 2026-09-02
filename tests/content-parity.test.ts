@@ -5,7 +5,7 @@ import { test } from "node:test";
 import { links, siteContent } from "../src/content/site-content.ts";
 
 const EXPECTED_CONTENT_HASH =
-  "67844fac7d0de02c2ad6ab220880a6b3ce1ac44b609b1afb127878e496f93f00";
+  "a7714530cb17c588b5f83a90bcef3c15a18fe5b7ff018e859aea1d93e54d1710";
 
 test("a copy congelada permanece literal", () => {
   const hash = createHash("sha256")
@@ -24,30 +24,26 @@ test("as quantidades editoriais obrigatórias permanecem completas", () => {
 
 test("os três cases em vídeo mantêm nomes e sequência aprovados", () => {
   assert.deepEqual(
-    siteContent.projects.items.map(({ id, brand, title, category }) => ({
+    siteContent.projects.items.map(({ id, service, project }) => ({
       id,
-      brand,
-      title,
-      category,
+      service,
+      project,
     })),
     [
       {
-        id: "dove-uv-repair",
-        brand: "Dove",
-        title: "UV Repair & Glow + Ferúlico",
-        category: "Ativação de marca",
+        id: "activation-case-01",
+        service: "Ativação de marca",
+        project: "Dove — UV Repair & Glow + Ferúlico",
       },
       {
         id: "kabum-sana-2025",
-        brand: "KaBuM!",
-        title: "SANA 2025",
-        category: "Cobertura de evento",
+        service: "Cobertura audiovisual",
+        project: "SANA 2025 — KaBuM!",
       },
       {
-        id: "brahma-rua-n1-2026",
-        brand: "Brahma",
-        title: "Rua Nº1 — Copa 2026",
-        category: "Experiência de marca",
+        id: "audiovisual-case-03",
+        service: "Cobertura audiovisual",
+        project: "Rua Nº1 Brahma — Copa 2026",
       },
     ],
   );

@@ -13,9 +13,8 @@ import styles from "@/components/projects-showcase.module.css";
 
 type ProjectShowcaseItem = {
   readonly id: string;
-  readonly brand: string;
-  readonly title: string;
-  readonly category: string;
+  readonly service: string;
+  readonly project: string;
   readonly mp4: string;
   readonly poster: string;
 };
@@ -331,7 +330,7 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
               type="button"
               key={item.id}
               onClick={() => selectProject(index, false)}
-              aria-label={`Ver case ${item.brand}: ${item.title}`}
+              aria-label={`Ver case ${item.service}: ${item.project}`}
               aria-pressed={index === activeIndex}
             >
               <span />
@@ -383,7 +382,7 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
                 data-position={position}
                 data-active={isActive}
                 key={item.id}
-                aria-label={`${item.brand}: ${item.title}`}
+                aria-label={`${item.service}: ${item.project}`}
               >
                 <video
                   className={styles.video}
@@ -405,9 +404,8 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
                 <div className={styles.cardAccent} aria-hidden="true" />
 
                 <div className={styles.caption}>
-                  <p className={styles.brand}>{item.brand}</p>
-                  <h3>{item.title}</h3>
-                  <p className={styles.category}>{item.category}</p>
+                  <h3>{item.service}</h3>
+                  <p className={styles.project}>{item.project}</p>
                 </div>
 
                 <button
@@ -417,9 +415,9 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
                   aria-label={
                     isActive
                       ? isAudible
-                        ? `Silenciar vídeo ${item.brand}`
-                        : `Ativar som do vídeo ${item.brand}`
-                      : `Destacar e ouvir o case ${item.brand}`
+                        ? `Silenciar vídeo: ${item.project}`
+                        : `Ativar som do vídeo: ${item.project}`
+                      : `Destacar e ouvir o case: ${item.project}`
                   }
                 />
 
@@ -430,8 +428,8 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
                     onClick={() => toggleSound(index)}
                     aria-label={
                       isAudible
-                        ? `Silenciar vídeo ${item.brand}`
-                        : `Ativar som do vídeo ${item.brand}`
+                        ? `Silenciar vídeo: ${item.project}`
+                        : `Ativar som do vídeo: ${item.project}`
                     }
                     aria-pressed={isAudible}
                   >
@@ -454,7 +452,7 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
         </button>
 
         <p className={styles.liveStatus} aria-live="polite" aria-atomic="true">
-          Case {activeIndex + 1} de {items.length}: {activeItem.brand}, {activeItem.title}
+          Case {activeIndex + 1} de {items.length}: {activeItem.service}, {activeItem.project}
         </p>
       </div>
     </div>
