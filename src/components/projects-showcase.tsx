@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   useCallback,
   useEffect,
@@ -33,6 +34,7 @@ type TransitionState = {
   readonly from: number;
   readonly to: number;
   readonly direction: MovementDirection;
+  readonly wrap: number;
 };
 
 function ArrowIcon({ direction }: { direction: "left" | "right" }) {
@@ -112,9 +114,11 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [transitionState, setTransitionState] =
     useState<TransitionState | null>(null);
+  const [teleportIndex, setTeleportIndex] = useState<number | null>(null);
   const showcaseRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
   const transitionTimerRef = useRef<number | null>(null);
+  const transitionFrameRef = useRef<number | null>(null);
   const transitionLockedRef = useRef(false);
   const dragRef = useRef({
     pointerId: -1,
@@ -180,9 +184,17 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
 
       const direction: MovementDirection =
         (nextIndex - activeIndex + items.length) % items.length === 1 ? 1 : -1;
+      const wrapIndex = items.findIndex(
+        (_, itemIndex) => itemIndex !== activeIndex && itemIndex !== nextIndex,
+      );
 
       transitionLockedRef.current = true;
-      setTransitionState({ from: activeIndex, to: nextIndex, direction });
+      setTransitionState({
+        from: activeIndex,
+        to: nextIndex,
+        direction,
+        wrap: Math.max(0, wrapIndex),
+      });
       setActiveIndex(nextIndex);
       updateAudio(nextIndex, enableSound);
 
@@ -191,12 +203,20 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
       }
 
       transitionTimerRef.current = window.setTimeout(() => {
-        transitionLockedRef.current = false;
         transitionTimerRef.current = null;
+        setTeleportIndex(Math.max(0, wrapIndex));
         setTransitionState(null);
+
+        transitionFrameRef.current = window.requestAnimationFrame(() => {
+          transitionFrameRef.current = window.requestAnimationFrame(() => {
+            setTeleportIndex(null);
+            transitionLockedRef.current = false;
+            transitionFrameRef.current = null;
+          });
+        });
       }, TRANSITION_DURATION);
     },
-    [activeIndex, items.length, updateAudio],
+    [activeIndex, items, updateAudio],
   );
 
   const toggleSound = useCallback(
@@ -216,6 +236,9 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
     () => () => {
       if (transitionTimerRef.current !== null) {
         window.clearTimeout(transitionTimerRef.current);
+      }
+      if (transitionFrameRef.current !== null) {
+        window.cancelAnimationFrame(transitionFrameRef.current);
       }
     },
     [],
@@ -419,6 +442,9 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
   if (!items.length) return null;
 
   const activeItem = items[activeIndex];
+  const transitionCloneItem = transitionState
+    ? items[transitionState.wrap]
+    : null;
 
   return (
     <div
@@ -507,6 +533,7 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
                 data-position={position}
                 data-active={isActive}
                 data-transition-role={transitionRole}
+                data-teleport={teleportIndex === index}
                 key={item.id}
                 aria-label={`${item.service}: ${item.project}`}
               >
@@ -566,6 +593,31 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
               </article>
             );
           })}
+
+          {transitionState && transitionCloneItem ? (
+            <article
+              className={`${styles.card} ${styles.transitionClone}`}
+              data-direction={
+                transitionState.direction === 1 ? "next" : "previous"
+              }
+              aria-hidden="true"
+            >
+              <Image
+                className={styles.video}
+                src={transitionCloneItem.poster}
+                alt=""
+                fill
+                sizes="(max-width: 820px) 76vw, 360px"
+                draggable={false}
+              />
+              <div className={styles.videoShade} aria-hidden="true" />
+              <div className={styles.cardAccent} aria-hidden="true" />
+              <div className={styles.caption}>
+                <h3>{transitionCloneItem.service}</h3>
+                <p className={styles.project}>{transitionCloneItem.project}</p>
+              </div>
+            </article>
+          ) : null}
         </div>
 
         <button
