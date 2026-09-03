@@ -71,8 +71,10 @@ export function Header({ navigation, whatsapp, cta }: HeaderProps) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {cta}
-          <Arrow />
+          <span className="cta-label">{cta}</span>
+          <span className="cta-arrow">
+            <Arrow />
+          </span>
         </a>
 
         <button
@@ -117,8 +119,10 @@ export function Header({ navigation, whatsapp, cta }: HeaderProps) {
             tabIndex={isOpen ? 0 : -1}
             onClick={closeMenu}
           >
-            {cta}
-            <Arrow />
+            <span className="cta-label">{cta}</span>
+            <span className="cta-arrow">
+              <Arrow />
+            </span>
           </a>
         </div>
       </nav>

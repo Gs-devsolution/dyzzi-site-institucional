@@ -16,8 +16,10 @@ function BudgetLink({ className = "" }: { className?: string }) {
       target="_blank"
       rel="noopener noreferrer"
     >
-      Solicitar Orçamento
-      <Arrow />
+      <span className="cta-label">Solicitar Orçamento</span>
+      <span className="cta-arrow">
+        <Arrow />
+      </span>
     </a>
   );
 }
@@ -128,8 +130,10 @@ export function Projects() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {projects.portfolioCta}
-            <Arrow />
+            <span className="cta-label">{projects.portfolioCta}</span>
+            <span className="cta-arrow">
+              <Arrow />
+            </span>
           </a>
           <BudgetLink />
         </div>
@@ -213,8 +217,10 @@ export function CareersAndSocial() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {careers.cta}
-            <Arrow />
+            <span className="cta-label">{careers.cta}</span>
+            <span className="cta-arrow">
+              <Arrow />
+            </span>
           </a>
         </article>
         <div className="social-panel">
