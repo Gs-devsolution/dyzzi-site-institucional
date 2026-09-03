@@ -5,7 +5,6 @@ import {
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
   type KeyboardEvent,
   type PointerEvent,
 } from "react";
@@ -23,8 +22,18 @@ type ProjectsShowcaseProps = {
   items: readonly ProjectShowcaseItem[];
 };
 
-const DRAG_THRESHOLD = 48;
-const MAX_DRAG_OFFSET = 132;
+const TRANSITION_DURATION = 560;
+const DRAG_ACTIVATION_DISTANCE = 8;
+const DRAG_VELOCITY_THRESHOLD = 0.45;
+const MAX_DRAG_OFFSET = 160;
+
+type MovementDirection = -1 | 1;
+
+type TransitionState = {
+  readonly from: number;
+  readonly to: number;
+  readonly direction: MovementDirection;
+};
 
 function ArrowIcon({ direction }: { direction: "left" | "right" }) {
   return (
@@ -100,15 +109,23 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
   const [isPaused, setIsPaused] = useState(false);
   const [isInViewport, setIsInViewport] = useState(false);
   const [isDocumentVisible, setIsDocumentVisible] = useState(true);
-  const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [transitionState, setTransitionState] =
+    useState<TransitionState | null>(null);
   const showcaseRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
+  const transitionTimerRef = useRef<number | null>(null);
+  const transitionLockedRef = useRef(false);
   const dragRef = useRef({
     pointerId: -1,
     startX: 0,
+    startY: 0,
+    lastX: 0,
+    lastTime: 0,
+    velocity: 0,
     active: false,
     captured: false,
+    axis: null as "horizontal" | "vertical" | null,
   });
   const suppressClickUntilRef = useRef(0);
 
@@ -118,12 +135,11 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
     });
   }, []);
 
-  const selectProject = useCallback(
+  const updateAudio = useCallback(
     (index: number, enableSound: boolean) => {
       if (!items.length) return;
 
       const nextIndex = (index + items.length) % items.length;
-      setActiveIndex(nextIndex);
       muteAll();
 
       if (!enableSound) {
@@ -152,6 +168,37 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
     [isDocumentVisible, isInViewport, isPaused, items.length, muteAll],
   );
 
+  const selectProject = useCallback(
+    (index: number, enableSound: boolean) => {
+      if (!items.length || transitionLockedRef.current) return;
+
+      const nextIndex = (index + items.length) % items.length;
+      if (nextIndex === activeIndex) {
+        updateAudio(nextIndex, enableSound);
+        return;
+      }
+
+      const direction: MovementDirection =
+        (nextIndex - activeIndex + items.length) % items.length === 1 ? 1 : -1;
+
+      transitionLockedRef.current = true;
+      setTransitionState({ from: activeIndex, to: nextIndex, direction });
+      setActiveIndex(nextIndex);
+      updateAudio(nextIndex, enableSound);
+
+      if (transitionTimerRef.current !== null) {
+        window.clearTimeout(transitionTimerRef.current);
+      }
+
+      transitionTimerRef.current = window.setTimeout(() => {
+        transitionLockedRef.current = false;
+        transitionTimerRef.current = null;
+        setTransitionState(null);
+      }, TRANSITION_DURATION);
+    },
+    [activeIndex, items.length, updateAudio],
+  );
+
   const toggleSound = useCallback(
     (index: number) => {
       if (audibleIndex === index) {
@@ -160,9 +207,18 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
         return;
       }
 
-      selectProject(index, true);
+      updateAudio(index, true);
     },
-    [audibleIndex, muteAll, selectProject],
+    [audibleIndex, muteAll, updateAudio],
+  );
+
+  useEffect(
+    () => () => {
+      if (transitionTimerRef.current !== null) {
+        window.clearTimeout(transitionTimerRef.current);
+      }
+    },
+    [],
   );
 
   useEffect(() => {
@@ -238,15 +294,25 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
   };
 
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === "mouse" && event.button !== 0) return;
+    if (
+      transitionLockedRef.current ||
+      (event.pointerType === "mouse" && event.button !== 0) ||
+      (event.target as HTMLElement).closest(`.${styles.soundButton}`)
+    ) {
+      return;
+    }
 
     dragRef.current = {
       pointerId: event.pointerId,
       startX: event.clientX,
+      startY: event.clientY,
+      lastX: event.clientX,
+      lastTime: event.timeStamp,
+      velocity: 0,
       active: true,
       captured: false,
+      axis: null,
     };
-    setIsDragging(true);
   };
 
   const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
@@ -254,12 +320,46 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
     if (!drag.active || drag.pointerId !== event.pointerId) return;
 
     const offset = event.clientX - drag.startX;
-    if (Math.abs(offset) > 8 && !drag.captured) {
+    const verticalOffset = event.clientY - drag.startY;
+
+    if (drag.axis === null) {
+      if (
+        Math.max(Math.abs(offset), Math.abs(verticalOffset)) <
+        DRAG_ACTIVATION_DISTANCE
+      ) {
+        return;
+      }
+
+      if (Math.abs(verticalOffset) >= Math.abs(offset)) {
+        drag.axis = "vertical";
+        drag.active = false;
+        return;
+      }
+
+      drag.axis = "horizontal";
+      setIsDragging(true);
+    }
+
+    if (drag.axis !== "horizontal") return;
+    event.preventDefault();
+
+    if (!drag.captured) {
       event.currentTarget.setPointerCapture(event.pointerId);
       drag.captured = true;
     }
-    setDragOffset(
-      Math.max(-MAX_DRAG_OFFSET, Math.min(MAX_DRAG_OFFSET, offset)),
+
+    const elapsed = Math.max(1, event.timeStamp - drag.lastTime);
+    drag.velocity = (event.clientX - drag.lastX) / elapsed;
+    drag.lastX = event.clientX;
+    drag.lastTime = event.timeStamp;
+
+    const constrainedOffset = Math.max(
+      -MAX_DRAG_OFFSET,
+      Math.min(MAX_DRAG_OFFSET, offset),
+    );
+    event.currentTarget.style.setProperty(
+      "--drag-offset",
+      `${constrainedOffset}px`,
     );
   };
 
@@ -268,16 +368,31 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
     if (!drag.active || drag.pointerId !== event.pointerId) return;
 
     const offset = event.clientX - drag.startX;
+    const wasHorizontal = drag.axis === "horizontal";
     dragRef.current.active = false;
     setIsDragging(false);
-    setDragOffset(0);
+    event.currentTarget.style.setProperty("--drag-offset", "0px");
 
-    if (Math.abs(offset) > 8) {
+    if (wasHorizontal && Math.abs(offset) > DRAG_ACTIVATION_DISTANCE) {
       suppressClickUntilRef.current = Date.now() + 350;
     }
 
-    if (Math.abs(offset) >= DRAG_THRESHOLD) {
-      moveBy(offset < 0 ? 1 : -1);
+    const activeCard = event.currentTarget.querySelector<HTMLElement>(
+      `[data-active="true"]`,
+    );
+    const distanceThreshold = Math.max(
+      42,
+      (activeCard?.getBoundingClientRect().width ?? 280) * 0.18,
+    );
+    const shouldAdvance =
+      wasHorizontal &&
+      (Math.abs(offset) >= distanceThreshold ||
+        Math.abs(drag.velocity) >= DRAG_VELOCITY_THRESHOLD);
+
+    if (shouldAdvance) {
+      const gestureDirection =
+        Math.abs(offset) >= DRAG_ACTIVATION_DISTANCE ? offset : drag.velocity;
+      moveBy(gestureDirection < 0 ? 1 : -1);
     }
 
     if (
@@ -286,6 +401,9 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
     ) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
+
+    drag.pointerId = -1;
+    drag.axis = null;
   };
 
   const handleCardClick = (index: number) => {
@@ -301,9 +419,6 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
   if (!items.length) return null;
 
   const activeItem = items[activeIndex];
-  const stageStyle = {
-    "--drag-offset": `${dragOffset}px`,
-  } as CSSProperties;
 
   return (
     <div
@@ -361,7 +476,10 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
         <div
           className={styles.stage}
           data-dragging={isDragging}
-          style={stageStyle}
+          data-transitioning={transitionState !== null}
+          data-direction={
+            transitionState?.direction === 1 ? "next" : "previous"
+          }
           tabIndex={0}
           onKeyDown={handleKeyDown}
           onPointerDown={handlePointerDown}
@@ -375,12 +493,20 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
             const position = getPosition(index, activeIndex, items.length);
             const isActive = position === "active";
             const isAudible = audibleIndex === index;
+            const transitionRole = transitionState
+              ? index === transitionState.from
+                ? "outgoing"
+                : index === transitionState.to
+                  ? "incoming"
+                  : "wrap"
+              : "idle";
 
             return (
               <article
                 className={styles.card}
                 data-position={position}
                 data-active={isActive}
+                data-transition-role={transitionRole}
                 key={item.id}
                 aria-label={`${item.service}: ${item.project}`}
               >

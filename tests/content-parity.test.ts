@@ -5,7 +5,7 @@ import { test } from "node:test";
 import { links, siteContent } from "../src/content/site-content.ts";
 
 const EXPECTED_CONTENT_HASH =
-  "a7714530cb17c588b5f83a90bcef3c15a18fe5b7ff018e859aea1d93e54d1710";
+  "f73b7ddf8d3c335e10a9415f86065184c152eb4d091810657e05d3c2e779cefb";
 
 test("a copy congelada permanece literal", () => {
   const hash = createHash("sha256")
@@ -20,6 +20,22 @@ test("as quantidades editoriais obrigatórias permanecem completas", () => {
   assert.equal(siteContent.projects.items.length, 3);
   assert.equal(siteContent.clients.items.length, 9);
   assert.equal(siteContent.testimonials.items.length, 5);
+  assert.equal(siteContent.staff.members.length, 2);
+});
+
+test("o staff mantém nomes, cargos e contatos aprovados", () => {
+  assert.deepEqual(siteContent.staff.members, [
+    {
+      name: "Gabriel Oliveira",
+      role: "CFO | Head de Tecnologia",
+      email: "tecnologia@agenciadyzzi.com.br",
+    },
+    {
+      name: "Dayane Araujo",
+      role: "CEO | Head de Comunicação",
+      email: "comunicacao@agenciadyzzi.com.br",
+    },
+  ]);
 });
 
 test("os três cases em vídeo mantêm nomes e sequência aprovados", () => {

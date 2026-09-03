@@ -75,7 +75,7 @@ export function Hero() {
 }
 
 export function About() {
-  const { about } = siteContent;
+  const { about, staff } = siteContent;
 
   return (
     <section className="section about" id="sobre">
@@ -87,6 +87,29 @@ export function About() {
         <div className="about-copy">
           <p>{about.body}</p>
           <BudgetLink />
+        </div>
+      </div>
+      <div className="shell staff-showcase" aria-labelledby="staff-title">
+        <div className="staff-heading">
+          <p className="eyebrow" id="staff-title">
+            {staff.eyebrow}
+          </p>
+          <span aria-hidden="true">Direção DYZZI</span>
+        </div>
+        <div className="staff-grid">
+          {staff.members.map((member, index) => (
+            <article className="staff-card" key={member.email}>
+              <span className="staff-number" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div className="staff-card-copy">
+                <h3>{member.name}</h3>
+                <p>{member.role}</p>
+                <a href={`mailto:${member.email}`}>{member.email}</a>
+              </div>
+              <span className="staff-accent" aria-hidden="true" />
+            </article>
+          ))}
         </div>
       </div>
       <LightSectionMarks variant="about" />

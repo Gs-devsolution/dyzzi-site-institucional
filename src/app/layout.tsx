@@ -7,6 +7,7 @@ import {
 } from "next/font/google";
 import localFont from "next/font/local";
 import { MetaPixel } from "@/components/meta-pixel";
+import { StructuredData } from "@/components/structured-data";
 import { VLibras } from "@/components/vlibras";
 import "./globals.css";
 
@@ -58,16 +59,18 @@ const engravers = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.agenciadyzzi.com.br"),
-  title: "DYZZI - Página Inicial",
-  description: "Marketing Digital descomplicado, estratégico & criativo",
+  title: "Agência de Marketing Digital em Recife | DYZZI",
+  description:
+    "Agência de marketing digital em Recife especializada em branding, gestão de redes sociais, produção de conteúdo, design gráfico, tráfego pago, sistemas e automações.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "pt_BR",
     url: "/",
     siteName: "Agência DYZZI",
-    title: "DYZZI - Página Inicial",
-    description: "Marketing Digital descomplicado, estratégico & criativo",
+    title: "Agência de Marketing Digital em Recife | DYZZI",
+    description:
+      "Estratégia, branding, redes sociais, conteúdo, design, tráfego pago e automações para marcas e empresas.",
     images: [
       {
         url: "/opengraph-image.png",
@@ -79,8 +82,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "DYZZI - Página Inicial",
-    description: "Marketing Digital descomplicado, estratégico & criativo",
+    title: "Agência de Marketing Digital em Recife | DYZZI",
+    description:
+      "Estratégia, branding, redes sociais, conteúdo, design, tráfego pago e automações para marcas e empresas.",
     images: ["/opengraph-image.png"],
   },
   icons: {
@@ -116,6 +120,7 @@ export default function RootLayout({
       className={`${poppinsSemibold.variable} ${poppinsBold.variable} ${montserrat.variable} ${parisienne.variable} ${playfair.variable} ${engravers.variable}`}
     >
       <body>
+        <StructuredData />
         {children}
         <VLibras />
         <MetaPixel />

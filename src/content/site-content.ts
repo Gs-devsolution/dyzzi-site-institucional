@@ -30,6 +30,21 @@ export const siteContent = {
       "A DYZZI é uma agência de marketing digital embarcada no Porto Digital, formada por um time multidisciplinar que une estratégia, criatividade e tecnologia para impulsionar negócios no ambiente online. Nosso propósito é tornar o marketing mais acessível e inteligente para profissionais, marcas e empresas.",
     cta: "Solicitar Orçamento",
   },
+  staff: {
+    eyebrow: "Staff",
+    members: [
+      {
+        name: "Gabriel Oliveira",
+        role: "CFO | Head de Tecnologia",
+        email: "tecnologia@agenciadyzzi.com.br",
+      },
+      {
+        name: "Dayane Araujo",
+        role: "CEO | Head de Comunicação",
+        email: "comunicacao@agenciadyzzi.com.br",
+      },
+    ],
+  },
   services: {
     eyebrow: "Nossos Serviços",
     title: "Como a DYZZI facilita?",
