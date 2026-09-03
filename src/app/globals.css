@@ -852,7 +852,7 @@ dd {
   min-height: 0;
   overflow: hidden;
   grid-template-columns: minmax(0, 1fr) 150px;
-  align-items: end;
+  align-items: center;
   gap: clamp(22px, 3vw, 44px);
   padding: 0 28px 28px 102px;
 }

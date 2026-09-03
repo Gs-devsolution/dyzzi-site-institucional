@@ -86,12 +86,11 @@ function ServiceGlyph({ index }: { index: number }) {
 }
 
 export function ServicesShowcase({ items }: ServicesShowcaseProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const showcaseRef = useRef<HTMLDivElement>(null);
   const triggerRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
-  const activateAndFocus = (index: number) => {
-    setActiveIndex(index);
+  const focusTrigger = (index: number) => {
     triggerRefs.current[index]?.focus();
   };
 
@@ -113,7 +112,7 @@ export function ServicesShowcase({ items }: ServicesShowcaseProps) {
 
     if (nextIndex !== null) {
       event.preventDefault();
-      activateAndFocus(nextIndex);
+      focusTrigger(nextIndex);
     }
   };
 
@@ -150,9 +149,16 @@ export function ServicesShowcase({ items }: ServicesShowcaseProps) {
           <article
             className={`service-panel${isActive ? " is-active" : ""}`}
             key={service.title}
-            onPointerMove={(event) => {
-              if (event.pointerType !== "touch" && activeIndex !== index) {
+            onPointerEnter={(event) => {
+              if (event.pointerType !== "touch") {
                 setActiveIndex(index);
+              }
+            }}
+            onPointerLeave={(event) => {
+              if (event.pointerType !== "touch") {
+                setActiveIndex((current) =>
+                  current === index ? null : current,
+                );
               }
             }}
           >
@@ -165,8 +171,11 @@ export function ServicesShowcase({ items }: ServicesShowcaseProps) {
               type="button"
               aria-expanded={isActive}
               aria-controls={panelId}
-              onClick={() => setActiveIndex(index)}
-              onFocus={() => setActiveIndex(index)}
+              onClick={() =>
+                setActiveIndex((current) =>
+                  current === index ? null : index,
+                )
+              }
               onKeyDown={(event) => handleKeyDown(event, index)}
             >
               <span className="service-panel-number">
