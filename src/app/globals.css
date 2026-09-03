@@ -2258,6 +2258,13 @@ dd {
   font-size: 0.7rem;
 }
 
+.footer-legal {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
 .vlibras-launcher {
   position: fixed;
   z-index: 100;
@@ -2921,6 +2928,10 @@ dd {
     justify-content: center;
     flex-direction: column;
     padding-block: 24px;
+  }
+
+  .footer-legal {
+    flex-wrap: wrap;
   }
 }
 

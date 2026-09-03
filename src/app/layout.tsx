@@ -7,7 +7,6 @@ import {
 } from "next/font/google";
 import localFont from "next/font/local";
 import { MetaPixel } from "@/components/meta-pixel";
-import { SeoEasterEgg } from "@/components/seo-easter-egg";
 import { StructuredData } from "@/components/structured-data";
 import { VLibras } from "@/components/vlibras";
 import { SITE_URL } from "@/lib/site-url";
@@ -126,7 +125,6 @@ export default function RootLayout({
         {children}
         <VLibras />
         <MetaPixel />
-        <SeoEasterEgg />
       </body>
     </html>
   );

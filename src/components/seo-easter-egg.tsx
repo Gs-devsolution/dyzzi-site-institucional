@@ -113,9 +113,6 @@ export function SeoEasterEgg() {
   return (
     <>
       <div className={styles.dock}>
-        <span className={styles.hint} aria-hidden="true">
-          mapa de soluções
-        </span>
         <button
           ref={triggerRef}
           className={styles.trigger}
@@ -126,8 +123,6 @@ export function SeoEasterEgg() {
           aria-expanded={isOpen}
           onClick={() => setIsOpen(true)}
         >
-          <span className={styles.triggerGlow} aria-hidden="true" />
-          <SearchIcon />
           <span>SEO</span>
         </button>
       </div>

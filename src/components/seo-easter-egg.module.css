@@ -1,116 +1,31 @@
 .dock {
-  position: fixed;
-  z-index: 104;
-  bottom: 20px;
-  left: 20px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 9px;
-}
-
-.hint {
-  padding: 7px 11px;
-  border: 1px solid rgba(126, 24, 181, 0.16);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.86);
-  box-shadow: 0 8px 28px rgba(41, 2, 59, 0.12);
-  color: #2a0638;
-  font-family: var(--font-montserrat), sans-serif;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  opacity: 0;
-  transform: translateX(-8px);
-  transition: opacity 220ms ease, transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
-  white-space: nowrap;
-}
-
-.dock:hover .hint,
-.dock:focus-within .hint {
-  opacity: 1;
-  transform: translateX(0);
 }
 
 .trigger {
   position: relative;
   display: inline-flex;
-  min-width: 48px;
-  height: 48px;
+  min-width: 44px;
+  min-height: 44px;
   align-items: center;
   justify-content: center;
-  gap: 0;
-  overflow: hidden;
+  padding: 0 5px;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.36);
-  border-radius: 999px;
-  background: linear-gradient(135deg, #21032e 8%, #6f0ca4 58%, #9124c8 100%);
-  box-shadow: 0 12px 34px rgba(42, 2, 56, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.24);
-  color: #fff;
-  padding-inline: 14px;
-  transition: min-width 340ms cubic-bezier(0.22, 1, 0.36, 1),
-    gap 340ms cubic-bezier(0.22, 1, 0.36, 1), transform 220ms ease,
-    box-shadow 220ms ease;
-}
-
-.triggerGlow {
-  position: absolute;
-  inset: -50%;
-  background: conic-gradient(
-    from 80deg,
-    transparent 0 70%,
-    rgba(238, 193, 255, 0.68) 82%,
-    transparent 94%
-  );
-  opacity: 0;
-  transition: opacity 220ms ease;
-}
-
-.trigger svg {
-  position: relative;
-  z-index: 1;
-  flex: 0 0 auto;
-  width: 18px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-width: 1.6;
-}
-
-.trigger > span:last-child {
-  position: relative;
-  z-index: 1;
-  max-width: 0;
-  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.34);
   font-family: var(--font-montserrat), sans-serif;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  opacity: 0;
-  transition: max-width 340ms cubic-bezier(0.22, 1, 0.36, 1), opacity 180ms ease;
-  white-space: nowrap;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  transition: color 180ms ease, transform 180ms ease;
 }
 
 .trigger:hover,
 .trigger:focus-visible {
-  min-width: 84px;
-  gap: 8px;
-  box-shadow: 0 16px 42px rgba(76, 5, 107, 0.38),
-    0 0 0 4px rgba(166, 64, 226, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
-}
-
-.trigger:hover .triggerGlow,
-.trigger:focus-visible .triggerGlow {
-  animation: seoTriggerOrbit 2.8s linear infinite;
-  opacity: 1;
-}
-
-.trigger:hover > span:last-child,
-.trigger:focus-visible > span:last-child {
-  max-width: 38px;
-  opacity: 1;
+  color: rgba(255, 255, 255, 0.68);
+  transform: translateY(-1px);
 }
 
 .trigger:focus-visible,
@@ -487,12 +402,6 @@
   white-space: nowrap;
 }
 
-@keyframes seoTriggerOrbit {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes seoDialogIn {
   from {
     opacity: 0;
@@ -506,30 +415,6 @@
 }
 
 @media (max-width: 720px) {
-  .dock {
-    bottom: 14px;
-    left: 14px;
-  }
-
-  .hint {
-    display: none;
-  }
-
-  .trigger,
-  .trigger:hover,
-  .trigger:focus-visible {
-    min-width: 76px;
-    gap: 7px;
-    padding-inline: 14px;
-  }
-
-  .trigger > span:last-child,
-  .trigger:hover > span:last-child,
-  .trigger:focus-visible > span:last-child {
-    max-width: 36px;
-    opacity: 1;
-  }
-
   .dialog {
     width: calc(100vw - 16px);
     max-height: calc(100dvh - 16px);
@@ -600,15 +485,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hint,
   .trigger,
-  .trigger > span:last-child,
   .close,
   .list li {
     transition-duration: 0.01ms;
   }
 
-  .triggerGlow,
   .dialog[open] {
     animation: none !important;
   }

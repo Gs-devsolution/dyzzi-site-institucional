@@ -4,6 +4,7 @@ import { ClientsCarousel } from "@/components/clients-carousel";
 import { HeroWord } from "@/components/hero-word";
 import { InteractiveHeroMark } from "@/components/interactive-hero-mark";
 import { ProjectsShowcase } from "@/components/projects-showcase";
+import { SeoEasterEgg } from "@/components/seo-easter-egg";
 import { ServicesShowcase } from "@/components/services-showcase";
 import { TestimonialsShowcase } from "@/components/testimonials-showcase";
 import { links, siteContent } from "@/content/site-content";
@@ -304,7 +305,10 @@ export function Footer() {
         <FooterLinks title={footer.contactTitle} links={footer.contact} />
       </div>
       <div className="shell footer-bottom">
-        <p>{footer.copyright}</p>
+        <div className="footer-legal">
+          <p>{footer.copyright}</p>
+          <SeoEasterEgg />
+        </div>
         <p>{footer.portoDigital}</p>
       </div>
     </footer>
