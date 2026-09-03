@@ -1,6 +1,6 @@
 # Mapa interno de palavras-chave — DYZZI
 
-Pesquisa editorial para orientar SEO, páginas de serviço e campanhas da DYZZI. Os termos foram agrupados por intenção comercial e aderência aos serviços atualmente oferecidos. A lista não deve ser publicada como bloco oculto, repetida artificialmente nem inserida em uma meta tag `keywords`.
+Pesquisa editorial para orientar SEO, páginas de serviço e campanhas da DYZZI. Os termos foram agrupados por intenção comercial e aderência aos serviços atualmente oferecidos. As 100 buscas comerciais e 100 palavras-chave também estão disponíveis no easter egg “SEO” do site como um mapa de soluções acessível ao visitante; a lista não é usada em uma meta tag `keywords`.
 
 ## Prioridades para a página institucional
 
@@ -38,7 +38,7 @@ Pesquisa editorial para orientar SEO, páginas de serviço e campanhas da DYZZI.
 15. estratégia de marketing digital
 16. orçamento agência de marketing
 17. contratar agência de marketing digital
-18. melhor agência de marketing Recife
+18. agência de marketing com atendimento em Recife
 19. agência de marketing Pernambuco
 20. marketing digital para empresas Recife
 
@@ -140,6 +140,10 @@ Pesquisa editorial para orientar SEO, páginas de serviço e campanhas da DYZZI.
 99. tecnologia para marketing
 100. soluções digitais personalizadas
 
+## 100 palavras-chave semânticas
+
+A lista complementar foi organizada nos mesmos núcleos editoriais e está congelada em `src/content/seo-catalog.ts`. Ela alimenta a segunda aba do easter egg e contém exatamente 100 termos únicos, cobrindo estratégia, branding, redes sociais, conteúdo, audiovisual, design, mídia paga, tecnologia e experiências de marca.
+
 ## Recomendações para próximas páginas
 
 - `/servicos/branding-e-gestao-de-marca`
@@ -157,5 +161,6 @@ Pesquisa editorial para orientar SEO, páginas de serviço e campanhas da DYZZI.
 - [Google Search Central — conteúdo útil](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
 - [Google Search Central — políticas de spam](https://developers.google.com/search/docs/essentials/spam-policies)
 - [Google Business Profile — fatores de busca local](https://support.google.com/business/answer/7091)
+- [Google Ads — Keyword Planner](https://support.google.com/google-ads/answer/7337243)
 
 > Este mapa representa hipóteses de busca relevantes, não estimativas de volume nem garantia de posicionamento. Volumes, custo por clique e dificuldade devem ser confirmados em ferramentas com dados da conta e região.

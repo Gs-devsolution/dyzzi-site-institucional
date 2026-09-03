@@ -1,17 +1,16 @@
 import { links, siteContent } from "@/content/site-content";
-
-const baseUrl = "https://www.agenciadyzzi.com.br";
+import { SITE_URL } from "@/lib/site-url";
 
 export function StructuredData() {
   const data = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "@id": `${baseUrl}/#organization`,
+    "@id": `${SITE_URL}/#organization`,
     name: "Agência DYZZI",
     alternateName: "DYZZI Comunicação Digital",
-    url: baseUrl,
-    logo: `${baseUrl}/brand/dyzzi-purple.png`,
-    image: `${baseUrl}/opengraph-image.png`,
+    url: SITE_URL,
+    logo: `${SITE_URL}/brand/dyzzi-purple.png`,
+    image: `${SITE_URL}/opengraph-image.png`,
     description:
       "Agência de marketing digital em Recife especializada em estratégia, criatividade e tecnologia para marcas e empresas.",
     email: "contato@agenciadyzzi.com.br",

@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/site-url";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://www.agenciadyzzi.com.br/",
+      url: `${SITE_URL}/`,
       changeFrequency: "monthly",
       priority: 1,
     },

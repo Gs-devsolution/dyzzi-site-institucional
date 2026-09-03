@@ -34,14 +34,14 @@ export const siteContent = {
     eyebrow: "Staff",
     members: [
       {
-        name: "Gabriel Oliveira",
-        role: "CFO | Head de Tecnologia",
-        email: "tecnologia@agenciadyzzi.com.br",
-      },
-      {
         name: "Dayane Araujo",
         role: "CEO | Head de Comunicação",
-        email: "comunicacao@agenciadyzzi.com.br",
+        email: "dayane@agenciadyzzi.com.br",
+      },
+      {
+        name: "Gabriel Fernando",
+        role: "CFO | Head de Tecnologia",
+        email: "gabriel@agenciadyzzi.com.br",
       },
     ],
   },

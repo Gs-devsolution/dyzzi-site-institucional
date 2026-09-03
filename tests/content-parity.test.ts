@@ -3,9 +3,15 @@ import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
 import { test } from "node:test";
 import { links, siteContent } from "../src/content/site-content.ts";
+import {
+  seoKeywordGroups,
+  seoKeywords,
+  seoSearchGroups,
+  seoSearchPhrases,
+} from "../src/content/seo-catalog.ts";
 
 const EXPECTED_CONTENT_HASH =
-  "f73b7ddf8d3c335e10a9415f86065184c152eb4d091810657e05d3c2e779cefb";
+  "7175b7d096c31a10f7040c4b3261964218c4e198ff4dae4eee520a5f2b8f0144";
 
 test("a copy congelada permanece literal", () => {
   const hash = createHash("sha256")
@@ -26,14 +32,14 @@ test("as quantidades editoriais obrigatórias permanecem completas", () => {
 test("o staff mantém nomes, cargos e contatos aprovados", () => {
   assert.deepEqual(siteContent.staff.members, [
     {
-      name: "Gabriel Oliveira",
-      role: "CFO | Head de Tecnologia",
-      email: "tecnologia@agenciadyzzi.com.br",
-    },
-    {
       name: "Dayane Araujo",
       role: "CEO | Head de Comunicação",
-      email: "comunicacao@agenciadyzzi.com.br",
+      email: "dayane@agenciadyzzi.com.br",
+    },
+    {
+      name: "Gabriel Fernando",
+      role: "CFO | Head de Tecnologia",
+      email: "gabriel@agenciadyzzi.com.br",
     },
   ]);
 });
@@ -92,4 +98,19 @@ test("todos os ativos obrigatórios estão locais", () => {
   for (const asset of assets) {
     assert.ok(existsSync(`public${asset}`), `Ativo ausente: ${asset}`);
   }
+});
+
+test("o mapa SEO mantém 100 buscas e 100 palavras-chave únicas", () => {
+  assert.equal(seoSearchPhrases.length, 100);
+  assert.equal(seoKeywords.length, 100);
+  assert.equal(new Set(seoSearchPhrases).size, 100);
+  assert.equal(new Set(seoKeywords).size, 100);
+  assert.deepEqual(
+    seoSearchGroups.flatMap((group) => group.terms),
+    [...seoSearchPhrases],
+  );
+  assert.deepEqual(
+    seoKeywordGroups.flatMap((group) => group.terms),
+    [...seoKeywords],
+  );
 });

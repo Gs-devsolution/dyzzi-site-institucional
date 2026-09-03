@@ -7,8 +7,10 @@ import {
 } from "next/font/google";
 import localFont from "next/font/local";
 import { MetaPixel } from "@/components/meta-pixel";
+import { SeoEasterEgg } from "@/components/seo-easter-egg";
 import { StructuredData } from "@/components/structured-data";
 import { VLibras } from "@/components/vlibras";
+import { SITE_URL } from "@/lib/site-url";
 import "./globals.css";
 
 const poppinsSemibold = Poppins({
@@ -58,7 +60,7 @@ const engravers = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.agenciadyzzi.com.br"),
+  metadataBase: new URL(SITE_URL),
   title: "Agência de Marketing Digital em Recife | DYZZI",
   description:
     "Agência de marketing digital em Recife especializada em branding, gestão de redes sociais, produção de conteúdo, design gráfico, tráfego pago, sistemas e automações.",
@@ -124,6 +126,7 @@ export default function RootLayout({
         {children}
         <VLibras />
         <MetaPixel />
+        <SeoEasterEgg />
       </body>
     </html>
   );
