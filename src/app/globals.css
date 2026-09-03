@@ -8,7 +8,7 @@
   --black: #000000;
   --muted: #6c6272;
   --line: rgba(28, 8, 40, 0.14);
-  --header-height: 80px;
+  --header-height: 96px;
   --shadow: 0 28px 80px rgba(28, 8, 40, 0.16);
   --section-space: clamp(88px, 7vw, 128px);
   --panel-radius: clamp(24px, 2.4vw, 38px);
@@ -315,11 +315,36 @@ dd {
   z-index: 80;
   inset: 0 0 auto;
   height: var(--header-height);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  background: linear-gradient(90deg, rgba(28, 8, 40, 0.94), rgba(43, 2, 61, 0.88));
+  border-bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(28, 8, 40, 0.92),
+    rgba(43, 2, 61, 0.88)
+  );
   color: var(--white);
   backdrop-filter: blur(20px) saturate(140%);
-  box-shadow: 0 10px 36px rgba(10, 0, 15, 0.12);
+  box-shadow: 0 18px 48px rgba(10, 0, 15, 0.08);
+  isolation: isolate;
+}
+
+.site-header::after {
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  left: 50%;
+  width: min(calc(100% - clamp(32px, 7vw, 132px)), 1580px);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(231, 199, 250, 0.08) 16%,
+    rgba(231, 199, 250, 0.2) 50%,
+    rgba(231, 199, 250, 0.08) 84%,
+    transparent
+  );
+  content: "";
+  pointer-events: none;
+  transform: translateX(-50%);
 }
 
 .header-inner {
@@ -339,7 +364,7 @@ dd {
 
 .header-logo img {
   position: absolute;
-  top: 60%;
+  top: 58%;
   left: 50%;
   width: 204px;
   max-width: none;
@@ -2319,7 +2344,7 @@ dd {
 
 @media (max-width: 960px) {
   :root {
-    --header-height: 76px;
+    --header-height: 88px;
   }
 
   .desktop-nav {
@@ -2336,10 +2361,20 @@ dd {
     flex-direction: column;
     gap: 7px;
     margin-left: auto;
-    border: 1px solid rgba(255, 255, 255, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.035);
     color: var(--white);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: border-color 180ms ease, background-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .menu-toggle:hover,
+  .menu-toggle:focus-visible {
+    border-color: rgba(224, 174, 247, 0.46);
+    background: rgba(141, 42, 209, 0.11);
+    transform: translateY(-1px);
   }
 
   .menu-toggle span {
@@ -2484,7 +2519,7 @@ dd {
   }
 
   .header-logo img {
-    top: 60%;
+    top: 58%;
     width: 188px;
     height: 188px;
   }
