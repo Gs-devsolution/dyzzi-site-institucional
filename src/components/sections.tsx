@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Arrow } from "@/components/arrow";
 import { ClientsCarousel } from "@/components/clients-carousel";
 import { HeroWord } from "@/components/hero-word";
@@ -9,7 +10,7 @@ import { ServicesShowcase } from "@/components/services-showcase";
 import { TestimonialsShowcase } from "@/components/testimonials-showcase";
 import { links, siteContent } from "@/content/site-content";
 
-function BudgetLink({ className = "" }: { className?: string }) {
+export function BudgetLink({ className = "" }: { className?: string }) {
   return (
     <a
       className={`button ${className}`.trim()}
@@ -148,17 +149,15 @@ export function Projects() {
           <h2 className="preserve-lines">{projects.title}</h2>
         </div>
         <div className="projects-actions">
-          <a
+          <Link
             className="text-link"
-            href={links.portfolio}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={links.cases}
           >
             <span className="cta-label">{projects.portfolioCta}</span>
             <span className="cta-arrow">
               <Arrow />
             </span>
-          </a>
+          </Link>
           <BudgetLink />
         </div>
       </div>
@@ -334,15 +333,19 @@ function FooterLinks({
       {items.map((item) => {
         const isExternal = item.external || item.href.startsWith("http");
 
-        return (
+        return isExternal ? (
           <a
             href={item.href}
             key={item.label}
-            target={isExternal ? "_blank" : undefined}
-            rel={isExternal ? "noopener noreferrer" : undefined}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             {item.label}
           </a>
+        ) : (
+          <Link href={item.href} key={item.label}>
+            {item.label}
+          </Link>
         );
       })}
     </nav>

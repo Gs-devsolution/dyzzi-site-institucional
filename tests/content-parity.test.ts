@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
 import { test } from "node:test";
+import { casesCatalog, publishedCases } from "../src/content/cases.ts";
 import { links, siteContent } from "../src/content/site-content.ts";
 import {
   seoKeywordGroups,
@@ -11,7 +12,7 @@ import {
 } from "../src/content/seo-catalog.ts";
 
 const EXPECTED_CONTENT_HASH =
-  "7175b7d096c31a10f7040c4b3261964218c4e198ff4dae4eee520a5f2b8f0144";
+  "ab87863202d9717734a0cfeea568e82f174385ff5bdc768b93194aac3cdb466d";
 
 test("a copy congelada permanece literal", () => {
   const hash = createHash("sha256")
@@ -78,9 +79,51 @@ test("links oficiais permanecem congelados", () => {
     email: "mailto:contato@agenciadyzzi.com.br",
     instagram: "https://www.instagram.com/agenciadyzzi",
     linkedin: "https://www.linkedin.com/company/ag%C3%AAnciadyzzi/",
-    portfolio: "https://portfolio.agenciadyzzi.com.br/",
+    cases: "/cases",
     careers: "https://linktr.ee/agenciadyzzi",
   });
+});
+
+test("a navegação interna funciona também fora da home", () => {
+  assert.deepEqual(
+    siteContent.navigation.map(({ label, href }) => ({ label, href })),
+    [
+      { label: "Página Inicial", href: "/#home" },
+      { label: "Sobre a DYZZI", href: "/#sobre" },
+      { label: "Nossos Serviços", href: "/#servicos" },
+      { label: "Cases", href: "/cases" },
+      { label: "Contatos", href: "/#contatos" },
+    ],
+  );
+  assert.equal(siteContent.projects.portfolioCta, "Explorar cases");
+});
+
+test("o catálogo de cases diferencia publicação e curadoria", () => {
+  assert.equal(casesCatalog.length, 3);
+  assert.equal(publishedCases.length, 1);
+  assert.equal(publishedCases[0]?.slug, "sana-2025-kabum");
+  assert.deepEqual(
+    casesCatalog.map(({ title, status }) => ({ title, status })),
+    [
+      { title: "SANA 2025 — KaBuM!", status: "published" },
+      { title: "Case em curadoria 02", status: "curating" },
+      { title: "Case em curadoria 03", status: "curating" },
+    ],
+  );
+
+  const publicCaseText = JSON.stringify(casesCatalog);
+  assert.equal(publicCaseText.includes("Dove"), false);
+  assert.equal(publicCaseText.includes("Brahma"), false);
+
+  const curatingItems = casesCatalog.filter(
+    (item) => item.status === "curating",
+  );
+  assert.ok(curatingItems.every((item) => item.slug === null));
+  assert.ok(
+    curatingItems.every(
+      (item) => item.curatorialLabel === "Conteúdo em curadoria",
+    ),
+  );
 });
 
 test("todos os ativos obrigatórios estão locais", () => {
@@ -93,6 +136,15 @@ test("todos os ativos obrigatórios estão locais", () => {
     "/brand/dyzzi-mark-purple.png",
     "/brand/dyzzi-pattern.png",
     "/media/simbolo-3d.png",
+    ...publishedCases.flatMap((item) => [
+      item.hero.kind === "video" ? item.hero.poster : item.hero.src,
+      ...item.gallery.flatMap((block) => {
+        const media = Array.isArray(block.media) ? block.media : [block.media];
+        return media.flatMap((entry) =>
+          entry.kind === "video" ? [entry.src, entry.poster] : [entry.src],
+        );
+      }),
+    ]),
   ];
 
   for (const asset of assets) {

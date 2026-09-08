@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Arrow } from "@/components/arrow";
 
@@ -42,7 +43,7 @@ export function Header({ navigation, whatsapp, cta }: HeaderProps) {
   return (
     <header className="site-header">
       <div className="shell header-inner">
-        <a className="header-logo" href="#home" onClick={closeMenu}>
+        <Link className="header-logo" href="/#home" onClick={closeMenu}>
           <Image
             src="/brand/dyzzi-white.png"
             alt="Agência DYZZI"
@@ -50,19 +51,25 @@ export function Header({ navigation, whatsapp, cta }: HeaderProps) {
             height={500}
             priority
           />
-        </a>
+        </Link>
 
         <nav className="desktop-nav" aria-label="Navegação principal">
-          {navigation.map((item) => (
-            <a
-              href={item.href}
-              key={item.label}
-              target={"external" in item ? "_blank" : undefined}
-              rel={"external" in item ? "noopener noreferrer" : undefined}
-            >
-              {item.label}
-            </a>
-          ))}
+          {navigation.map((item) =>
+            item.external ? (
+              <a
+                href={item.href}
+                key={item.label}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link href={item.href} key={item.label}>
+                {item.label}
+              </Link>
+            ),
+          )}
         </nav>
 
         <a
@@ -98,19 +105,31 @@ export function Header({ navigation, whatsapp, cta }: HeaderProps) {
         aria-hidden={!isOpen}
       >
         <div className="shell mobile-nav-inner">
-          {navigation.map((item) => (
-            <a
-              href={item.href}
-              key={item.label}
-              tabIndex={isOpen ? 0 : -1}
-              target={"external" in item ? "_blank" : undefined}
-              rel={"external" in item ? "noopener noreferrer" : undefined}
-              onClick={closeMenu}
-            >
-              {item.label}
-              <Arrow />
-            </a>
-          ))}
+          {navigation.map((item) =>
+            item.external ? (
+              <a
+                href={item.href}
+                key={item.label}
+                tabIndex={isOpen ? 0 : -1}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={closeMenu}
+              >
+                {item.label}
+                <Arrow />
+              </a>
+            ) : (
+              <Link
+                href={item.href}
+                key={item.label}
+                tabIndex={isOpen ? 0 : -1}
+                onClick={closeMenu}
+              >
+                {item.label}
+                <Arrow />
+              </Link>
+            ),
+          )}
           <a
             className="button"
             href={whatsapp}

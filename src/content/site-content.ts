@@ -5,17 +5,17 @@ export const links = {
   instagram: "https://www.instagram.com/agenciadyzzi",
   linkedin:
     "https://www.linkedin.com/company/ag%C3%AAnciadyzzi/",
-  portfolio: "https://portfolio.agenciadyzzi.com.br/",
+  cases: "/cases",
   careers: "https://linktr.ee/agenciadyzzi",
 } as const;
 
 export const siteContent = {
   navigation: [
-    { label: "Página Inicial", href: "#home" },
-    { label: "Sobre a DYZZI", href: "#sobre" },
-    { label: "Nossos Serviços", href: "#servicos" },
-    { label: "Nosso Portfólio", href: links.portfolio, external: true },
-    { label: "Contatos", href: "#contatos" },
+    { label: "Página Inicial", href: "/#home" },
+    { label: "Sobre a DYZZI", href: "/#sobre" },
+    { label: "Nossos Serviços", href: "/#servicos" },
+    { label: "Cases", href: links.cases },
+    { label: "Contatos", href: "/#contatos" },
   ],
   hero: {
     eyebrow: "Agência DYZZI",
@@ -91,7 +91,7 @@ export const siteContent = {
   projects: {
     eyebrow: "Nossos projetos",
     title: "Conheça os trabalhos\nque a DYZZI realizou",
-    portfolioCta: "Ver portfolio completo",
+    portfolioCta: "Explorar cases",
     budgetCta: "Solicitar Orçamento",
     items: [
       {
@@ -259,11 +259,11 @@ export const siteContent = {
     cta: "Solicitar Orçamento",
     navigationTitle: "Navegação",
     navigation: [
-      { label: "Página Inicial", href: "#home" },
-      { label: "Sobre a DYZZI", href: "#sobre" },
-      { label: "Nossos Serviços", href: "#servicos" },
-      { label: "Portfólio", href: links.portfolio, external: true },
-      { label: "Contatos", href: "#contatos" },
+      { label: "Página Inicial", href: "/#home" },
+      { label: "Sobre a DYZZI", href: "/#sobre" },
+      { label: "Nossos Serviços", href: "/#servicos" },
+      { label: "Cases", href: links.cases },
+      { label: "Contatos", href: "/#contatos" },
     ],
     socialTitle: "Social",
     social: [
