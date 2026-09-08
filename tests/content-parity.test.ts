@@ -104,14 +104,14 @@ test("o portfólio reúne comunicação e tecnologia sem atribuições indevidas
     portfolioItems.map(({ id, discipline }) => ({ id, discipline })),
     [
       { id: "kabum-sana-2025", discipline: "communication" },
-      { id: "solvi", discipline: "technology" },
+      { id: "technology-slot-01", discipline: "technology" },
       { id: "dove-uv-repair", discipline: "communication" },
-      { id: "automacao-fiscal-operacional", discipline: "technology" },
+      { id: "technology-slot-02", discipline: "technology" },
       { id: "brahma-rua-n1", discipline: "communication" },
-      { id: "importacao-contabil", discipline: "technology" },
-      { id: "dashboards-operacionais", discipline: "technology" },
-      { id: "integracoes-empresariais", discipline: "technology" },
-      { id: "lp-medico", discipline: "technology" },
+      { id: "technology-slot-03", discipline: "technology" },
+      { id: "technology-slot-04", discipline: "technology" },
+      { id: "technology-slot-05", discipline: "technology" },
+      { id: "technology-slot-06", discipline: "technology" },
     ],
   );
 
@@ -137,6 +137,19 @@ test("o portfólio reúne comunicação e tecnologia sem atribuições indevidas
     "Marca no projeto",
   );
   assert.equal(new Set(portfolioItems.map(({ id }) => id)).size, 9);
+
+  const technologySlots = portfolioItems.filter(
+    (item) => item.discipline === "technology",
+  );
+  assert.ok(technologySlots.every((item) => item.title === "Em breve"));
+  assert.ok(
+    technologySlots.every(
+      (item) =>
+        item.contextLabel === "Status" &&
+        item.context === "Conteúdo em preparação" &&
+        item.href === undefined,
+    ),
+  );
 });
 
 test("todos os ativos obrigatórios estão locais", () => {

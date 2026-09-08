@@ -13,7 +13,12 @@ type PortfolioBaseItem = {
   readonly discipline: PortfolioDiscipline;
   readonly title: string;
   readonly service: string;
-  readonly contextLabel: "Cliente" | "Marca no projeto" | "Aplicação" | "Projeto";
+  readonly contextLabel:
+    | "Cliente"
+    | "Marca no projeto"
+    | "Aplicação"
+    | "Projeto"
+    | "Status";
   readonly context: string;
   readonly size: "wide" | "medium" | "compact";
   readonly href?: string;
@@ -46,16 +51,15 @@ export const portfolioItems: readonly PortfolioItem[] = [
     size: "wide",
   },
   {
-    id: "solvi",
+    id: "technology-slot-01",
     discipline: "technology",
-    title: "Solvi",
-    service: "Produto digital",
-    contextLabel: "Projeto",
-    context: "Produto próprio",
+    title: "Em breve",
+    service: "Projeto em curadoria",
+    contextLabel: "Status",
+    context: "Conteúdo em preparação",
     kind: "graphic",
     artwork: "finance",
     size: "compact",
-    href: "https://solvi.app.br/",
   },
   {
     id: "dove-uv-repair",
@@ -69,16 +73,15 @@ export const portfolioItems: readonly PortfolioItem[] = [
     size: "compact",
   },
   {
-    id: "automacao-fiscal-operacional",
+    id: "technology-slot-02",
     discipline: "technology",
-    title: "Automação Fiscal e Operacional",
-    service: "Sistemas e automações",
-    contextLabel: "Aplicação",
-    context: "Operação fiscal e contábil",
+    title: "Em breve",
+    service: "Projeto em curadoria",
+    contextLabel: "Status",
+    context: "Conteúdo em preparação",
     kind: "graphic",
     artwork: "automation",
     size: "wide",
-    href: "https://www.gslab.dev.br/projetos/solucoes/automacao-fiscal-operacional",
   },
   {
     id: "brahma-rua-n1",
@@ -92,48 +95,47 @@ export const portfolioItems: readonly PortfolioItem[] = [
     size: "medium",
   },
   {
-    id: "importacao-contabil",
+    id: "technology-slot-03",
     discipline: "technology",
-    title: "Importação de Movimentações Contábeis",
-    service: "Sistemas e automações",
-    contextLabel: "Aplicação",
-    context: "Operações contábeis e ERP",
+    title: "Em breve",
+    service: "Projeto em curadoria",
+    contextLabel: "Status",
+    context: "Conteúdo em preparação",
     kind: "graphic",
     artwork: "ledger",
     size: "medium",
   },
   {
-    id: "dashboards-operacionais",
+    id: "technology-slot-04",
     discipline: "technology",
-    title: "Dashboards e Relatórios Operacionais",
-    service: "Dados e indicadores",
-    contextLabel: "Aplicação",
-    context: "Análise e tomada de decisão",
+    title: "Em breve",
+    service: "Projeto em curadoria",
+    contextLabel: "Status",
+    context: "Conteúdo em preparação",
     kind: "graphic",
     artwork: "dashboard",
     size: "compact",
   },
   {
-    id: "integracoes-empresariais",
+    id: "technology-slot-05",
     discipline: "technology",
-    title: "Integrações Empresariais",
-    service: "Integrações e workflows",
-    contextLabel: "Aplicação",
-    context: "APIs, CRM, ERP e automações",
+    title: "Em breve",
+    service: "Projeto em curadoria",
+    contextLabel: "Status",
+    context: "Conteúdo em preparação",
     kind: "graphic",
     artwork: "integration",
     size: "compact",
   },
   {
-    id: "lp-medico",
+    id: "technology-slot-06",
     discipline: "technology",
-    title: "LP para Médico",
-    service: "Desenvolvimento web",
-    contextLabel: "Projeto",
-    context: "Demonstração conceitual",
+    title: "Em breve",
+    service: "Projeto em curadoria",
+    contextLabel: "Status",
+    context: "Conteúdo em preparação",
     kind: "graphic",
     artwork: "health",
     size: "compact",
-    href: "https://www.gslab.dev.br/projetos/lp/medico_01",
   },
 ] as const;
