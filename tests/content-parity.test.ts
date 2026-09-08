@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
 import { test } from "node:test";
-import { casesCatalog, publishedCases } from "../src/content/cases.ts";
+import { portfolioItems } from "../src/content/portfolio.ts";
 import { links, siteContent } from "../src/content/site-content.ts";
 import {
   seoKeywordGroups,
@@ -12,7 +12,7 @@ import {
 } from "../src/content/seo-catalog.ts";
 
 const EXPECTED_CONTENT_HASH =
-  "ab87863202d9717734a0cfeea568e82f174385ff5bdc768b93194aac3cdb466d";
+  "16d06850ab297052cac1d8fb43ccf67d025c23b03395257ab6ba61a93b8f83ac";
 
 test("a copy congelada permanece literal", () => {
   const hash = createHash("sha256")
@@ -79,7 +79,7 @@ test("links oficiais permanecem congelados", () => {
     email: "mailto:contato@agenciadyzzi.com.br",
     instagram: "https://www.instagram.com/agenciadyzzi",
     linkedin: "https://www.linkedin.com/company/ag%C3%AAnciadyzzi/",
-    cases: "/cases",
+    portfolio: "/portfolio",
     careers: "https://linktr.ee/agenciadyzzi",
   });
 });
@@ -91,39 +91,52 @@ test("a navegação interna funciona também fora da home", () => {
       { label: "Página Inicial", href: "/#home" },
       { label: "Sobre a DYZZI", href: "/#sobre" },
       { label: "Nossos Serviços", href: "/#servicos" },
-      { label: "Cases", href: "/cases" },
+      { label: "Portfólio", href: "/portfolio" },
       { label: "Contatos", href: "/#contatos" },
     ],
   );
-  assert.equal(siteContent.projects.portfolioCta, "Explorar cases");
+  assert.equal(siteContent.projects.portfolioCta, "Explorar portfólio");
 });
 
-test("o catálogo de cases diferencia publicação e curadoria", () => {
-  assert.equal(casesCatalog.length, 3);
-  assert.equal(publishedCases.length, 1);
-  assert.equal(publishedCases[0]?.slug, "sana-2025-kabum");
+test("o portfólio reúne comunicação e tecnologia sem atribuições indevidas", () => {
+  assert.equal(portfolioItems.length, 9);
   assert.deepEqual(
-    casesCatalog.map(({ title, status }) => ({ title, status })),
+    portfolioItems.map(({ id, discipline }) => ({ id, discipline })),
     [
-      { title: "SANA 2025 — KaBuM!", status: "published" },
-      { title: "Case em curadoria 02", status: "curating" },
-      { title: "Case em curadoria 03", status: "curating" },
+      { id: "kabum-sana-2025", discipline: "communication" },
+      { id: "solvi", discipline: "technology" },
+      { id: "dove-uv-repair", discipline: "communication" },
+      { id: "automacao-fiscal-operacional", discipline: "technology" },
+      { id: "brahma-rua-n1", discipline: "communication" },
+      { id: "importacao-contabil", discipline: "technology" },
+      { id: "dashboards-operacionais", discipline: "technology" },
+      { id: "integracoes-empresariais", discipline: "technology" },
+      { id: "lp-medico", discipline: "technology" },
     ],
   );
 
-  const publicCaseText = JSON.stringify(casesCatalog);
-  assert.equal(publicCaseText.includes("Dove"), false);
-  assert.equal(publicCaseText.includes("Brahma"), false);
+  assert.equal(
+    portfolioItems.filter((item) => item.discipline === "communication").length,
+    3,
+  );
+  assert.equal(
+    portfolioItems.filter((item) => item.discipline === "technology").length,
+    6,
+  );
 
-  const curatingItems = casesCatalog.filter(
-    (item) => item.status === "curating",
+  const directClients = portfolioItems.filter(
+    (item) => item.contextLabel === "Cliente",
   );
-  assert.ok(curatingItems.every((item) => item.slug === null));
-  assert.ok(
-    curatingItems.every(
-      (item) => item.curatorialLabel === "Conteúdo em curadoria",
-    ),
+  assert.deepEqual(directClients.map(({ context }) => context), ["KaBuM!"]);
+  assert.equal(
+    portfolioItems.find((item) => item.context === "Dove")?.contextLabel,
+    "Marca no projeto",
   );
+  assert.equal(
+    portfolioItems.find((item) => item.context === "Brahma")?.contextLabel,
+    "Marca no projeto",
+  );
+  assert.equal(new Set(portfolioItems.map(({ id }) => id)).size, 9);
 });
 
 test("todos os ativos obrigatórios estão locais", () => {
@@ -136,15 +149,9 @@ test("todos os ativos obrigatórios estão locais", () => {
     "/brand/dyzzi-mark-purple.png",
     "/brand/dyzzi-pattern.png",
     "/media/simbolo-3d.png",
-    ...publishedCases.flatMap((item) => [
-      item.hero.kind === "video" ? item.hero.poster : item.hero.src,
-      ...item.gallery.flatMap((block) => {
-        const media = Array.isArray(block.media) ? block.media : [block.media];
-        return media.flatMap((entry) =>
-          entry.kind === "video" ? [entry.src, entry.poster] : [entry.src],
-        );
-      }),
-    ]),
+    ...portfolioItems.flatMap((item) =>
+      item.kind === "media" ? [item.poster] : [],
+    ),
   ];
 
   for (const asset of assets) {

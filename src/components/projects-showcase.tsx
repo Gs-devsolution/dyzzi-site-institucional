@@ -452,7 +452,7 @@ export function ProjectsShowcase({ items }: ProjectsShowcaseProps) {
       ref={showcaseRef}
       role="region"
       aria-roledescription="carrossel"
-      aria-label="Cases em vídeo da DYZZI"
+      aria-label="Projetos em vídeo da DYZZI"
     >
       <div className={styles.showcase}>
         <div className={styles.ambientGrid} aria-hidden="true" />

@@ -1,0 +1,21 @@
+.notFound {
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  padding: 48px 20px;
+  background:
+    radial-gradient(circle at 70% 36%, rgba(141, 42, 209, 0.46), transparent 28%),
+    #1c0828;
+  color: #fff;
+  text-align: center;
+}
+
+.notFound h1 {
+  margin-bottom: 18px;
+  font-size: clamp(3.2rem, 10vw, 8rem);
+}
+
+.notFound p {
+  margin-bottom: 30px;
+  color: rgba(255, 255, 255, 0.66);
+}

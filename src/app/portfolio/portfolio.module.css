@@ -1,0 +1,211 @@
+.hero {
+  position: relative;
+  display: grid;
+  min-height: max(520px, 62svh);
+  overflow: hidden;
+  align-items: end;
+  padding: calc(var(--header-height) + clamp(68px, 8vh, 108px)) 0 clamp(62px, 8vh, 94px);
+  background:
+    radial-gradient(circle at 72% 52%, rgba(116, 20, 172, 0.68), transparent 24%),
+    linear-gradient(118deg, #050406 2%, #100517 54%, #260033);
+  color: #fff;
+}
+
+.hero::before {
+  position: absolute;
+  top: -45%;
+  right: -5%;
+  width: min(68vw, 1020px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(137, 33, 199, 0.22), transparent 66%);
+  content: "";
+  filter: blur(6px);
+}
+
+.heroGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(231, 201, 247, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(231, 201, 247, 0.055) 1px, transparent 1px);
+  background-size: 118px 118px;
+  mask-image: linear-gradient(90deg, black, transparent 78%);
+}
+
+.heroOrbit,
+.heroOrbit::before,
+.heroOrbit::after {
+  position: absolute;
+  border: 1px solid rgba(226, 183, 248, 0.2);
+  border-radius: 50%;
+  content: "";
+}
+
+.heroOrbit {
+  top: 48%;
+  right: 9vw;
+  width: min(35vw, 540px);
+  aspect-ratio: 1;
+  transform: translateY(-44%);
+}
+
+.heroOrbit::before {
+  inset: 17%;
+}
+
+.heroOrbit::after {
+  inset: 37%;
+  border-color: rgba(255, 138, 43, 0.46);
+  box-shadow: 0 0 34px rgba(255, 138, 43, 0.08);
+}
+
+.heroInner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 54px;
+}
+
+.heroCopy p,
+.closingEyebrow {
+  color: #d9a4fb;
+  font-family: var(--font-engravers), var(--font-montserrat), sans-serif;
+  font-size: 0.67rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.heroCopy p {
+  margin-bottom: 16px;
+}
+
+.heroCopy h1 {
+  font-size: clamp(4.6rem, 10vw, 10.5rem);
+  line-height: 0.84;
+}
+
+.heroSignature {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 22px;
+  padding-bottom: 4px;
+}
+
+.heroSignature img {
+  width: 150px;
+  height: 66px;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.78;
+}
+
+.heroSignature p {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.7rem;
+  line-height: 1.65;
+  text-align: right;
+}
+
+.closing {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(94px, 9vw, 154px);
+  background:
+    radial-gradient(circle at 84% 48%, rgba(153, 47, 215, 0.44), transparent 28%),
+    linear-gradient(130deg, #22002f, #500073);
+  color: #fff;
+}
+
+.closingOrbit,
+.closingOrbit::before {
+  position: absolute;
+  border: 1px solid rgba(232, 203, 249, 0.18);
+  border-radius: 50%;
+  content: "";
+}
+
+.closingOrbit {
+  top: 50%;
+  right: -12vw;
+  width: min(58vw, 860px);
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+}
+
+.closingOrbit::before {
+  inset: 20%;
+}
+
+.closingInner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 48px;
+}
+
+.closingEyebrow {
+  margin-bottom: 15px;
+}
+
+.closing h2 {
+  max-width: 12ch;
+  font-size: clamp(2.7rem, 5vw, 5.7rem);
+}
+
+@media (max-width: 760px) {
+  .hero {
+    min-height: 530px;
+    padding-bottom: 54px;
+  }
+
+  .heroInner,
+  .closingInner {
+    grid-template-columns: 1fr;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(4rem, 21vw, 6.4rem);
+  }
+
+  .heroSignature {
+    align-items: flex-start;
+  }
+
+  .heroSignature img {
+    display: none;
+  }
+
+  .heroSignature p {
+    text-align: left;
+  }
+
+  .heroOrbit {
+    right: -34vw;
+    width: 86vw;
+  }
+
+  .closingInner {
+    align-items: start;
+  }
+
+  .closing h2 {
+    font-size: clamp(2.6rem, 11.5vw, 4.4rem);
+  }
+
+  .closing .closingInner > a {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroOrbit,
+  .closingOrbit {
+    animation: none;
+  }
+}

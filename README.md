@@ -6,7 +6,7 @@ Landing page institucional da Agência DYZZI, construída com Next.js 16, React 
 
 - Copy e links: [site oficial da Agência DYZZI](https://www.agenciadyzzi.com.br/)
 - Identidade: arquivos oficiais fornecidos pela agência
-- Cases DYZZI: rota interna `/cases`, mantida em `noindex` enquanto o conteúdo está em curadoria
+- Portfólio DYZZI: rota interna `/portfolio`, mantida em `noindex` durante a validação da curadoria
 
 Toda a copy visível está centralizada em `src/content/site-content.ts`. O teste `tests/content-parity.test.ts` bloqueia alterações acidentais na copy congelada, nas contagens editoriais, nos links e nos ativos locais obrigatórios.
 

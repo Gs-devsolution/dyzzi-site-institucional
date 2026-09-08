@@ -151,7 +151,7 @@ export function Projects() {
         <div className="projects-actions">
           <Link
             className="text-link"
-            href={links.cases}
+            href={links.portfolio}
           >
             <span className="cta-label">{projects.portfolioCta}</span>
             <span className="cta-arrow">
